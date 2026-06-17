@@ -3,40 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voz Luno - Treinamento</title>
+    <title>Voz Luno - Fluidez no Espanhol</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #f4f6f9; margin: 0; padding: 15px; color: #333; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 500px; background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-top: 10px; }
-        h2 { text-align: center; color: #1a1a1a; margin-top: 0; font-size: 22px; }
-        p { text-align: center; color: #666; font-size: 15px; margin-bottom: 20px; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        body { background-color: #f7f9fc; margin: 0; padding: 15px; color: #333; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 480px; background: #ffffff; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); margin-top: 10px; min-height: 80vh; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        h2 { text-align: center; color: #2b3a4a; margin-top: 0; font-size: 22px; font-weight: 700; }
+        p { text-align: center; color: #7b8a99; font-size: 15px; margin-bottom: 20px; line-height: 1.4; }
         
         /* Menu Principal */
-        .grid-menu { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .btn-bloco { width: 100%; padding: 20px; border: 2px solid #ddd; background: #fff; border-radius: 8px; font-size: 16px; font-weight: bold; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .btn-bloco.concluido { border-color: #28a745; background-color: #e8f5e9; color: #1b5e20; }
-        .status-badge { font-size: 12px; padding: 4px 8px; border-radius: 12px; background: #eee; }
-        .concluido .status-badge { background: #28a745; color: white; }
+        .grid-menu { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .btn-bloco { width: 100%; padding: 18px; border: 2px solid #e2e8f0; background: #fff; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
+        .btn-bloco:active { transform: scale(0.98); }
+        .btn-bloco.concluido { border-color: #2cd46b; background-color: #f0fdf4; color: #166534; }
+        .status-badge { font-size: 12px; padding: 6px 12px; border-radius: 20px; background: #f1f5f9; color: #64748b; font-weight: bold; }
+        .concluido .status-badge { background: #2cd46b; color: white; }
 
-        /* Tela de Reconhecimento (Fase 1) */
-        .lista-reconhecimento { display: flex; flex-direction: column; gap: 10px; }
-        .item-reconhecer { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; font-size: 16px; }
-        .item-reconhecer:active { background: #e2e6ea; }
-        .btn-acao-principal { width: 100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        /* Barra de Progresso Interna */
+        .progress-bar-container { width: 100%; background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 20px; overflow: hidden; display: none; }
+        .progress-bar { height: 100%; background: #3b82f6; width: 0%; transition: width 0.3s ease; }
 
-        /* Tela de Exercício de Múltipla Escolha (Fase 2) */
-        .palavra-pergunta { font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; color: #007bff; }
-        .opcoes-container { display: flex; flex-direction: column; gap: 12px; }
-        .btn-opcao { width: 100%; padding: 14px; border: 2px solid #dee2e6; background: white; border-radius: 8px; font-size: 16px; cursor: pointer; text-align: center; }
+        /* Tela de Reconhecimento */
+        .lista-reconhecimento { display: flex; flex-direction: column; gap: 8px; max-height: 45vh; overflow-y: auto; padding-right: 4px; }
+        .item-reconhecer { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 500; }
+        .item-reconhecer:active { background: #cbd5e1; }
+        .speaker-icon { color: #3b82f6; font-size: 18px; }
 
-        /* Tela de Associação / Combinar (Fase 3) */
-        .colunas-combinar { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .coluna { display: flex; flex-direction: column; gap: 10px; }
-        .btn-combinar { padding: 12px 8px; border: 2px solid #dee2e6; background: white; border-radius: 6px; font-size: 14px; cursor: pointer; text-align: center; min-height: 50px; display: flex; align-items: center; justify-content: center; }
-        .btn-combinar.selecionado { border-color: #007bff; background-color: #e3f2fd; }
-        .btn-combinar.correto { border-color: #28a745; background-color: #e8f5e9; color: #1b5e20; pointer-events: none; opacity: 0.7; }
+        /* Múltipla Escolha */
+        .palavra-pergunta { font-size: 26px; font-weight: 800; text-align: center; margin: 30px 0; color: #1e3a8a; }
+        .opcoes-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .btn-opcao { width: 100%; padding: 16px; border: 2px solid #e2e8f0; background: white; border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.15s ease; }
+        
+        /* Associação (Ligar Colunas) */
+        .colunas-combinar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; width: 100%; }
+        .coluna { display: flex; flex-direction: column; gap: 8px; }
+        .btn-combinar { padding: 14px 8px; border: 2px solid #e2e8f0; background: white; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; text-align: center; min-height: 54px; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+        .btn-combinar.selecionado { border-color: #3b82f6; background-color: #eff6ff; color: #1e40af; }
+        .btn-combinar.correto { border-color: #2cd46b; background-color: #f0fdf4; color: #166534; pointer-events: none; opacity: 0.6; }
 
-        /* Utilitários Visuais */
+        /* Botão de Ação Inferior */
+        .btn-acao-principal { width: 100%; padding: 16px; background: #3b82f6; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; margin-top: 24px; cursor: pointer; transition: background 0.2s; }
+        .btn-acao-principal:hover { background: #2563eb; }
+
         .oculto { display: none !important; }
     </style>
 </head>
@@ -44,77 +53,138 @@
 
     <div class="container">
         
-        <!-- TELA 1: MENU PRINCIPAL -->
-        <div id="tela-menu">
-            <h2>Módulos de Espanhol</h2>
-            <p>Selecione um bloco para praticar:</p>
-            <div class="grid-menu">
-                <button id="bloco-1" class="btn-bloco" onclick="iniciarModulo()">
-                    <span>✈️ Bloco 1: Aeroporto & Turismo</span>
-                    <span id="badge-bloco-1" class="status-badge">Pendente</span>
-                </button>
-                <button class="btn-bloco" style="opacity: 0.5; cursor: not-allowed;" disabled>
-                    <span>🏨 Bloco 2: Hotel & Hospedagem</span>
-                    <span class="status-badge">Bloqueado</span>
-                </button>
-                <button class="btn-bloco" style="opacity: 0.5; cursor: not-allowed;" disabled>
-                    <span>🍽️ Bloco 3: Restaurante & Alimentação</span>
-                    <span class="status-badge">Bloqueado</span>
-                </button>
-            </div>
+        <div class="progress-bar-container" id="global-progress">
+            <div class="progress-bar" id="progress-indicator"></div>
         </div>
 
-        <!-- TELA 2: RECONHECIMENTO (ESCUTAR AS PALAVRAS) -->
+        <div id="tela-menu" class="grid-menu">
+            <h2>Voz Luno - Módulos</h2>
+            <p>Escolha um contexto para treinar o seu espanhol prático:</p>
+            <button id="bloco-0" class="btn-bloco" onclick="carregarModulo(0)">
+                <span>✈️ Bloco 1: Aeroporto (Parte 1)</span>
+                <span id="badge-bloco-0" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-1" class="btn-bloco" onclick="carregarModulo(1)">
+                <span>🧳 Bloco 2: Aeroporto (Parte 2)</span>
+                <span id="badge-bloco-1" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-2" class="btn-bloco" onclick="carregarModulo(2)">
+                <span>🍽️ Bloco 3: No Restaurante</span>
+                <span id="badge-bloco-2" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-3" class="btn-bloco" onclick="carregarModulo(3)">
+                <span>🏨 Bloco 4: No Hotel</span>
+                <span id="badge-bloco-3" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-4" class="btn-bloco" onclick="carregarModulo(4)">
+                <span>🚕 Bloco 5: Táxi & Ônibus</span>
+                <span id="badge-bloco-4" class="status-badge">Pendente</span>
+            </button>
+        </div>
+
         <div id="tela-reconhecimento" class="oculto">
-            <h2>Fase 1: Reconhecimento</h2>
-            <p>Clique em cada palavra para ouvir a pronúncia em espanhol antes de ir ao teste.</p>
+            <h2>Reconhecimento Vocabular</h2>
+            <p>Toque em cada expressão para ouvir a pronúncia correta em espanhol antes de iniciar o jogo técnico.</p>
             <div class="lista-reconhecimento" id="container-reconhecer"></div>
-            <button class="btn-acao-principal" onclick="iniciarMultiplaEscolha()">Ir para o Exercício</button>
+            <button class="btn-acao-principal" onclick="iniciarMultiplaEscolha()">Iniciar Exercícios</button>
         </div>
 
-        <!-- TELA 3: MÚLTIPLA ESCOLA -->
         <div id="tela-exercicio" class="oculto">
-            <h2>Fase 2: Escolha a correta</h2>
-            <p id="progresso-exercicio">Pergunta 1 de 10</p>
+            <h2>Escolha a Resposta Certa</h2>
             <div class="palavra-pergunta" id="texto-pergunta">---</div>
             <div class="opcoes-container" id="container-opcoes"></div>
         </div>
 
-        <!-- TELA 4: COMBINAR COLUNAS (LIGAÇÃO) -->
         <div id="tela-combinar" class="oculto">
-            <h2>Fase 3: Associação</h2>
-            <p>Combine os pares equivalentes clicando em uma palavra de cada coluna.</p>
+            <h2>Associação Equivalente</h2>
+            <p>Combine os pares corretos selecionando uma palavra de cada lado da tabela.</p>
             <div class="colunas-combinar">
                 <div class="coluna" id="coluna-espanhol"></div>
                 <div class="coluna" id="coluna-portugues"></div>
             </div>
         </div>
 
-        <!-- TELA 5: SUCESSO / PARABÉNS -->
         <div id="tela-parabens" class="oculto">
-            <h2 style="color: #28a745; font-size: 28px;">¡Excelente! 🎉</h2>
-            <p id="mensagem-resultado" style="font-size: 16px; font-weight: bold;"></p>
-            <button class="btn-acao-principal" style="background: #28a745;" onclick="voltarAoMenu()">Voltar para o Menu</button>
+            <h2 id="titulo-resultado" style="font-size: 28px;">---</h2>
+            <p id="mensagem-resultado" style="font-size: 16px; font-weight: 500;"></p>
+            <button class="btn-acao-principal" id="btn-concluir-modulo" onclick="voltarAoMenu()">Retornar ao Menu</button>
         </div>
 
     </div>
 
     <script>
-        // Banco de Dados do Protótipo (10 Palavras de Turismo/Aeroporto)
-        const bancoPalavras = [
-            { pt: "Garçom", es: "Camarero", alt: ["Cocinero", "Viajero", "Conductor"] },
-            { pt: "Passagem", es: "Billete", alt: ["Maleta", "Pasaporte", "Avión"] },
-            { pt: "Aeroporto", es: "Aeropuerto", alt: ["Estación", "Puerto", "Hotel"] },
-            { pt: "Bagagem", es: "Equipaje", alt: ["Viaje", "Asiento", "Piloto"] },
-            { pt: "Avião", es: "Avión", alt: ["Coche", "Tren", "Autobús"] },
-            { pt: "Passaporte", es: "Pasaporte", alt: ["Billete", "Tarjeta", "Permiso"] },
-            { pt: "Voo", es: "Vuelo", alt: ["Viaje", "Destino", "Asiento"] },
-            { pt: "Hotel", es: "Hotel", alt: ["Restaurante", "Casa", "Tienda"] },
-            { pt: "Táxi", es: "Taxi", alt: ["Autobús", "Metro", "Bicicleta"] },
-            { pt: "Poltrona / Assento", es: "Asiento", alt: ["Vuelo", "Equipaje", "Puerta"] }
+        // BANCO DE DADOS CORE - ORGANIZADO EM BLOCOS ESTRITOS DE 10 ITEMS
+        const macroBlocos = [
+            // Bloco 1: Aeroporto Parte 1
+            [
+                { pt: "Passagem", es: "Billete", alt: ["Maleta", "Pasaporte", "Avión"] },
+                { pt: "Aeroporto", es: "Aeropuerto", alt: ["Estación", "Puerto", "Hotel"] },
+                { pt: "Bagagem", es: "Equipaje", alt: ["Viaje", "Asiento", "Piloto"] },
+                { pt: "Avião", es: "Avión", alt: ["Coche", "Tren", "Autobús"] },
+                { pt: "Passaporte", es: "Pasaporte", alt: ["Billete", "Tarjeta", "Permiso"] },
+                { pt: "Voo", es: "Vuelo", alt: ["Viaje", "Destino", "Asiento"] },
+                { pt: "Poltrona / Assento", es: "Asiento", alt: ["Vuelo", "Equipaje", "Puerta"] },
+                { pt: "Portão de Embarque", es: "Puerta de embarque", alt: ["Mostrador", "Pista", "Aduana"] },
+                { pt: "Cartão de Embarque", es: "Tarjeta de embarque", alt: ["Billete", "Pasaporte", "Maleta"] },
+                { pt: "Comissário de Voo", es: "Auxiliar de vuelo", alt: ["Piloto", "Pasajero", "Conductor"] }
+            ],
+            // Bloco 2: Aeroporto Parte 2
+            [
+                { pt: "Alfândega", es: "Aduana", alt: ["Seguridad", "Salida", "Control"] },
+                { pt: "Escala", es: "Escala", alt: ["Retraso", "Llegada", "Salida"] },
+                { pt: "Atraso", es: "Retraso", alt: ["Puntual", "Cancelado", "Espera"] },
+                { pt: "Esteira de Bagagem", es: "Cinta de equipaje", alt: ["Mostrador", "Aduana", "Control"] },
+                { pt: "Conexão", es: "Conexión", alt: ["Vuelo", "Escala", "Directo"] },
+                { pt: "Decolagem", es: "Despegue", alt: ["Aterrizaje", "Vuelo", "Salida"] },
+                { pt: "Pouso", es: "Aterrizaje", alt: ["Despegue", "Vuelo", "Llegada"] },
+                { pt: "Balcão de Atendimento", es: "Mostrador", alt: ["Oficina", "Asiento", "Cinta"] },
+                { pt: "Piloto", es: "Piloto", alt: ["Capitán", "Conductor", "Auxiliar"] },
+                { pt: "Passageiro", es: "Pasajero", alt: ["Piloto", "Guía", "Camarero"] }
+            ],
+            // Bloco 3: Restaurante
+            [
+                { pt: "Garçom", es: "Camarero", alt: ["Cocinero", "Gerente", "Cajero"] },
+                { pt: "Cardápio", es: "Menú", alt: ["Plato", "Cuenta", "Mesa"] },
+                { pt: "Conta", es: "Cuenta", alt: ["Precio", "Propina", "Dinero"] },
+                { pt: "Gorjeta", es: "Propina", alt: ["Cuenta", "Regalo", "Pago"] },
+                { pt: "Cadeira", es: "Silla", alt: ["Mesa", "Vaso", "Plato"] },
+                { pt: "Mesa", es: "Mesa", alt: ["Silla", "Cocina", "Bar"] },
+                { pt: "Copo", es: "Vaso", alt: ["Taza", "Plato", "Botella"] },
+                { pt: "Plato", es: "Plato", alt: ["Vaso", "Cuchara", "Tenedor"] },
+                { pt: "Talher", es: "Cubierto", alt: ["Cuchillo", "Tenedor", "Plato"] },
+                { pt: "Guardanapo", es: "Servilleta", alt: ["Mantel", "Vaso", "Plato"] }
+            ],
+            // Bloco 4: Hotel
+            [
+                { pt: "Quarto", es: "Habitación", alt: ["Baño", "Cama", "Salón"] },
+                { pt: "Reserva", es: "Reserva", alt: ["Pago", "Llave", "Registro"] },
+                { pt: "Chave", es: "Llave", alt: ["Tarjeta", "Puerta", "Candado"] },
+                { pt: "Recepção", es: "Recepción", alt: ["Entrada", "Oficina", "Salón"] },
+                { pt: "Hospedar-se", es: "Alojarse", alt: ["Viajar", "Dormir", "Salir"] },
+                { pt: "Café da Manhã", es: "Desayuno", alt: ["Almuerzo", "Cena", "Merienda"] },
+                { pt: "Elevador", es: "Ascensor", alt: ["Escalera", "Pasillo", "Puerta"] },
+                { pt: "Ar-Condicionado", es: "Aire acondicionado", alt: ["Calefacción", "Ventilador", "Frío"] },
+                { pt: "Toalha", es: "Toalla", alt: ["Sábana", "Manta", "Jabón"] },
+                { pt: "Gerente", es: "Gerente", alt: ["Botones", "Recepcionista", "Director"] }
+            ],
+            // Bloco 5: Táxi e Ônibus
+            [
+                { pt: "Motorista", es: "Conductor", alt: ["Pasajero", "Piloto", "Guía"] },
+                { pt: "Endereço", es: "Dirección", alt: ["Calle", "Mapa", "Ciudad"] },
+                { pt: "Rua", es: "Calle", alt: ["Avenida", "Ruta", "Camino"] },
+                { pt: "Ponto de Ônibus", es: "Parada de autobús", alt: ["Estación", "Terminal", "Metro"] },
+                { pt: "Tarifa / Preço", es: "Tarifa", alt: ["Cuenta", "Billete", "Cambio"] },
+                { pt: "Troco", es: "Cambio", alt: ["Dinero", "Billete", "Tarifa"] },
+                { pt: "Destino", es: "Destino", alt: ["Viaje", "Ruta", "Llegada"] },
+                { pt: "Bagageiro", es: "Maletero", alt: ["Asiento", "Puerta", "Motor"] },
+                { pt: "Esquina", es: "Esquina", alt: ["Cruce", "Calle", "Acera"] },
+                { pt: "Sinal de Trânsito", es: "Semáforo", alt: ["Señal", "Cruce", "Policía"] }
+            ]
         ];
 
-        // Estado da Aplicação
+        // Variáveis de Controle Operacional
+        let moduloAtual = 0;
+        let bancoPalavras = [];
         let indiceExercicio = 0;
         let errosCometidos = 0;
         let itemSelecionadoEs = null;
@@ -122,48 +192,51 @@
         let acertosCombinar = 0;
         let moduloConcluidoComSucesso = false;
 
-        // Função Ponte de Áudio para o App Inventor 2 (Evita travar o webview)
         function emitirSom(termo) {
             if (window.AppInventor && window.AppInventor.setWebViewString) {
-                // Envia comando limpo para o bloco do App Inventor falar nativamente
                 window.AppInventor.setWebViewString("falar:" + termo);
-                // Reseta a string logo em seguida de forma assíncrona para desengasgar a ponte
-                setTimeout(function() { window.AppInventor.setWebViewString(""); }, 200);
+                setTimeout(function() { window.AppInventor.setWebViewString(""); }, 150);
             } else {
-                // Fallback de teste se rodar direto no navegador do PC
                 const fala = new SpeechSynthesisUtterance(termo);
                 fala.lang = 'es-ES';
                 window.speechSynthesis.speak(fala);
             }
         }
 
-        // Troca de Telas Limpa (Blindada contra congelamento)
         function mudarTela(idTelaAlvo) {
             const telas = ['tela-menu', 'tela-reconhecimento', 'tela-exercicio', 'tela-combinar', 'tela-parabens'];
-            telas.forEach(tela => {
-                document.getElementById(tela).classList.add('oculto');
-            });
+            telas.forEach(t => document.getElementById(t).classList.add('oculto'));
+            
+            const progressoBar = document.getElementById("global-progress");
+            progressoBar.style.display = (idTelaAlvo === 'tela-menu' || idTelaAlvo === 'tela-parabens') ? 'none' : 'block';
+            
             document.getElementById(idTelaAlvo).classList.remove('oculto');
             window.scrollTo(0,0);
         }
 
-        // FASE 1: Montar Lista de Reconhecimento
-        function iniciarModulo() {
+        function atualizarBarraProgresso(porcentagem) {
+            document.getElementById("progress-indicator").style.width = porcentagem + "%";
+        }
+
+        function carregarModulo(index) {
+            moduloAtual = index;
+            bancoPalavras = macroBlocos[moduloAtual];
+            
             const container = document.getElementById("container-reconhecer");
             container.innerHTML = "";
+            atualizarBarraProgresso(10);
             
             bancoPalavras.forEach(item => {
                 const div = document.createElement("div");
                 div.className = "item-reconhecer";
                 div.onclick = () => emitirSom(item.es);
-                div.innerHTML = `<span><strong>${item.pt}</strong>: ${item.es}</span> <span>🔊</span>`;
+                div.innerHTML = `<span><strong>${item.pt}</strong>: ${item.es}</span> <span class="speaker-icon">🔊</span>`;
                 container.appendChild(div);
             });
             
             mudarTela("tela-reconhecimento");
         }
 
-        // FASE 2: Iniciar Múltipla Escolha Dinâmica
         function iniciarMultiplaEscolha() {
             indiceExercicio = 0;
             errosCometidos = 0;
@@ -177,13 +250,14 @@
                 return;
             }
 
+            // Calcula progresso da Fase 2 (Mapeado de 10% a 50%)
+            let progressoCalculado = 10 + Math.floor((indiceExercicio / bancoPalavras.length) * 40);
+            atualizarBarraProgresso(progressoCalculado);
+
             const itemAtual = bancoPalavras[indiceExercicio];
-            document.getElementById("progresso-exercicio").innerText = `Palavra ${indiceExercicio + 1} de ${bancoPalavras.length}`;
             document.getElementById("texto-pergunta").innerText = `Como se diz "${itemAtual.pt}"?`;
 
-            // Junta a resposta certa com as erradas de forma embaralhada aleatoriamente
             const opcoes = [itemAtual.es, ...itemAtual.alt].sort(() => Math.random() - 0.5);
-            
             const containerOpcoes = document.getElementById("container-opcoes");
             containerOpcoes.innerHTML = "";
 
@@ -197,36 +271,33 @@
         }
 
         function checarResposta(selecionada, correta, elementoBtn) {
-            // Bloqueia cliques repetidos durante a animação de feedback rápido
             const botoes = document.querySelectorAll(".btn-opcao");
             botoes.forEach(b => b.removeAttribute("onclick"));
 
             if (selecionada === correta) {
-                elementoBtn.style.borderColor = "#28a745";
-                elementoBtn.style.backgroundColor = "#e8f5e9";
-                elementoBtn.style.color = "#1b5e20";
+                elementoBtn.style.borderColor = "#2cd46b";
+                elementoBtn.style.backgroundColor = "#f0fdf4";
+                elementoBtn.style.color = "#166534";
                 emitirSom(correta);
             } else {
-                elementoBtn.style.borderColor = "#dc3545";
-                elementoBtn.style.backgroundColor = "#f8d7da";
-                elementoBtn.style.color = "#721c24";
+                elementoBtn.style.borderColor = "#ef4444";
+                elementoBtn.style.backgroundColor = "#fef2f2";
+                elementoBtn.style.color = "#991b1b";
                 errosCometidos++;
             }
 
-            // Transição rápida para a próxima pergunta automática
             setTimeout(() => {
                 indiceExercicio++;
                 renderizarPergunta();
-            }, 900);
+            }, 800);
         }
 
-        // FASE 3: Exercício de Combinar Colunas (Ligar os Blocos)
         function iniciarCombinarColunas() {
             acertosCombinar = 0;
             itemSelecionadoEs = null;
             itemSelecionadoPt = null;
+            atualizarBarraProgresso(55);
 
-            // Embaralha as duas colunas independentemente para forçar a atenção visual
             const listaEs = [...bancoPalavras].sort(() => Math.random() - 0.5);
             const listaPt = [...bancoPalavras].sort(() => Math.random() - 0.5);
 
@@ -248,7 +319,7 @@
                 const btn = document.createElement("button");
                 btn.className = "btn-combinar";
                 btn.innerText = item.pt;
-                btn.setAttribute("data-es", item.es); // Armazena a chave de ligação de forma oculta
+                btn.setAttribute("data-es", item.es);
                 btn.onclick = () => selecionarElemento(btn, 'pt');
                 colPt.appendChild(btn);
             });
@@ -267,13 +338,11 @@
 
             elemento.classList.add("selecionado");
 
-            // Se ambos os lados foram selecionados, verifica a equivalência direta
             if (itemSelecionadoEs && itemSelecionadoPt) {
                 const chaveEs = itemSelecionadoEs.getAttribute("data-es");
                 const chavePt = itemSelecionadoPt.getAttribute("data-es");
 
                 if (chaveEs === chavePt) {
-                    // Par Correto
                     itemSelecionadoEs.className = "btn-combinar correto";
                     itemSelecionadoPt.className = "btn-combinar correto";
                     emitirSom(chaveEs);
@@ -282,22 +351,25 @@
                     itemSelecionadoEs = null;
                     itemSelecionadoPt = null;
 
+                    // Progresso da Fase 3 (Mapeado de 55% a 100%)
+                    let progressoCombinar = 55 + Math.floor((acertosCombinar / bancoPalavras.length) * 45);
+                    atualizarBarraProgresso(progressoCombinar);
+
                     if (acertosCombinar === bancoPalavras.length) {
-                        finalizarModulo();
+                        setTimeout(finalizarModulo, 600);
                     }
                 } else {
-                    // Par Errado - Aplica feedback visual rápido e limpa seleção
                     const elEs = itemSelecionadoEs;
                     const elPt = itemSelecionadoPt;
-                    elEs.style.borderColor = "#dc3545";
-                    elPt.style.borderColor = "#dc3545";
+                    elEs.style.borderColor = "#ef4444";
+                    elPt.style.borderColor = "#ef4444";
                     errosCometidos++;
 
                     setTimeout(() => {
                         elEs.classList.remove("selecionado");
                         elPt.classList.remove("selecionado");
-                        elEs.style.borderColor = "#dee2e6";
-                        elPt.style.borderColor = "#dee2e6";
+                        elEs.style.borderColor = "#e2e8f0";
+                        elPt.style.borderColor = "#e2e8f0";
                     }, 400);
 
                     itemSelecionadoEs = null;
@@ -306,24 +378,29 @@
             }
         }
 
-        // FASE FINAL: Checagem de Desempenho 100% Correct
         function finalizarModulo() {
+            const titulo = document.getElementById("titulo-resultado");
             const msg = document.getElementById("mensagem-resultado");
+            
             if (errosCometidos === 0) {
                 moduloConcluidoComSucesso = true;
-                msg.innerHTML = "Você completou o exercício com 100% de aproveitamento!<br><br>O módulo foi marcado como concluído.";
+                titulo.innerText = "¡Perfecto! 🏆";
+                titulo.style.color = "#166534";
+                msg.innerHTML = "Excelente! Você concluiu todas as etapas deste bloco com <strong>100% de precisão</strong> e sem nenhum erro!";
             } else {
                 moduloConcluidoComSucesso = false;
-                msg.innerHTML = `Você concluiu todas as fases, mas cometeu <strong>${errosCometidos} deslizes/erros</strong> ao longo do treino.<br><br>Tente novamente para fechar o módulo sem erros e desbloquear o marcador verde!`;
+                titulo.innerText = "¡Buen intento! 👍";
+                titulo.style.color = "#1e3a8a";
+                msg.innerHTML = `Você chegou ao fim! Porém, cometeu <strong>${errosCometidos} deslizes</strong> técnico(s) durante os testes.<br><br>Gabarite o bloco sem erros para receber a insígnia verde de conclusão permanente.`;
             }
             mudarTela("tela-parabens");
         }
 
         function voltarAoMenu() {
             if (moduloConcluidoComSucesso) {
-                const b1 = document.getElementById("bloco-1");
-                b1.className = "btn-bloco concluido";
-                document.getElementById("badge-bloco-1").innerText = "100% Concluído";
+                const b = document.getElementById("bloco-" + moduloAtual);
+                b.className = "btn-bloco concluido";
+                document.getElementById("badge-bloco-" + moduloAtual).innerText = "Gabaritado";
             }
             mudarTela("tela-menu");
         }
