@@ -101,6 +101,26 @@
                 <span>🗣️ Bloco 10: Verbos e Expressões</span>
                 <span id="badge-bloco-9" class="status-badge">Pendente</span>
             </button>
+           <button id="bloco-10" class="btn-bloco" onclick="carregarModulo(10)">
+                <span>👨‍👩‍👧 Bloco 11: Relações Familiares</span>
+                <span id="badge-bloco-10" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-11" class="btn-bloco" onclick="carregarModulo(11)">
+                <span>🎨 Bloco 12: Cores e Vestuário</span>
+                <span id="badge-bloco-11" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-12" class="btn-bloco" onclick="carregarModulo(12)">
+                <span>🧭 Bloco 13: Direções e Espaço</span>
+                <span id="badge-bloco-12" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-13" class="btn-bloco" onclick="carregarModulo(13)">
+                <span>🌲 Bloco 14: Elementos da Natureza</span>
+                <span id="badge-bloco-13" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-14" class="btn-bloco" onclick="carregarModulo(14)">
+                <span>⚡ Bloco 15: Ações e Conexões</span>
+                <span id="badge-bloco-14" class="status-badge">Pendente</span>
+            </button>
         </div>
 
         <div id="tela-reconhecimento" class="oculto">
@@ -265,7 +285,73 @@
                 { pt: "Esquecer", es: "Olvidar", alt: ["Recordar", "Aprender", "Guardar"] },
                 { pt: "Ficar (Permanecer)", es: "Quedarse", alt: ["Salir", "Irse", "Caminar"] },
                 { pt: "Ouvir", es: "Escuchar", alt: ["Mirar", "Hablar", "Escribir"] }
+            ],
+            // Bloco 11: Relações Familiares e Pessoas (Index 10)
+            [
+                { pt: "Avô", es: "Abuelo", alt: ["Tío", "Primo", "Padre"] },
+                { pt: "Avó", es: "Abuela", alt: ["Tía", "Madre", "Sobrina"] },
+                { pt: "Criança / Rapaz", es: "Chico", alt: ["Hombre", "Mujer", "Anciano"] },
+                { pt: "Mãe", es: "Madre", alt: ["Padre", "Hermana", "Abuela"] },
+                { pt: "Pai", es: "Padre", alt: ["Madre", "Hermano", "Abuelo"] },
+                { pt: "Irmão", es: "Hermano", alt: ["Primo", "Tío", "Sobrino"] },
+                { pt: "Irmã", es: "Hermana", alt: ["Prima", "Tía", "Sobrina"] },
+                { pt: "Tio", es: "Tío", alt: ["Sobrino", "Abuelo", "Padre"] },
+                { pt: "Tia", es: "Tía", alt: ["Sobrina", "Abuela", "Madre"] },
+                { pt: "Aniversário", es: "Cumpleaños", alt: ["Fiesta", "Regalo", "Boda"] }
+            ],
+            // Bloco 12: Cores e Vestuário (Index 11)
+            [
+                { pt: "Vermelho", es: "Rojo", alt: ["Azul", "Verde", "Blanco"] },
+                { pt: "Cartão / Tarjeta", es: "Tarjeta", alt: ["Billete", "Papel", "Sobre"] },
+                { pt: "Manta / Cobertor", es: "Manta", alt: ["Sábana", "Almohada", "Toalla"] },
+                { pt: "Casaco / Abrigo", es: "Abrigo", alt: ["Camisa", "Pantalón", "Zapatos"] },
+                { pt: "Roupa", es: "Ropa", alt: ["Maleta", "Tela", "Bolsa"] },
+                { pt: "Preto", es: "Negro", alt: ["Blanco", "Gris", "Amarillo"] },
+                { pt: "Branco", es: "Blanco", alt: ["Negro", "Azul", "Rojo"] },
+                { pt: "Azul", es: "Azul", alt: ["Verde", "Rojo", "Rosa"] },
+                { pt: "Verde", es: "Verde", alt: ["Amarillo", "Azul", "Gris"] },
+                { pt: "Sapato", es: "Zapato", alt: ["Bota", "Sandalia", "Calcetín"] }
+            ],
+            // Bloco 13: Direções, Espaço e Distância (Index 12)
+            [
+                { pt: "Longe", es: "Lejos", alt: ["Cerca", "Aquí", "Allí"] },
+                { pt: "Perto", es: "Cerca", alt: ["Lejos", "Arriba", "Abajo"] },
+                { pt: "Aproximando", es: "Cercando", alt: ["Alejando", "Corriendo", "Saltando"] },
+                { pt: "Frente / Adiante", es: "Adelante", alt: ["Atrás", "Debajo", "Arriba"] },
+                { pt: "Atrás", es: "Atrás", alt: ["Adelante", "Dentro", "Fuera"] },
+                { pt: "Dentro", es: "Dentro", alt: ["Fuera", "Arriba", "Abajo"] },
+                { pt: "Fora", es: "Fuera", alt: ["Dentro", "Cerca", "Lejos"] },
+                { pt: "Esquerda", es: "Izquierda", alt: ["Derecha", "Centro", "Recto"] },
+                { pt: "Direita", es: "Derecha", alt: ["Izquierda", "Centro", "Giro"] },
+                { pt: "Lugar / Sítio", es: "Lugar", alt: ["Tiempo", "Mapa", "País"] }
+            ],
+            // Bloco 14: Elementos da Natureza e Ambiente (Index 13)
+            [
+                { pt: "Pedras / Rochas", es: "Piedras", alt: ["Tierras", "Plantas", "Árboles"] },
+                { pt: "Fogo", es: "Fuego", alt: ["Agua", "Viento", "Tierra"] },
+                { pt: "Água", es: "Agua", alt: ["Fuego", "Leche", "Vino"] },
+                { pt: "Terra / Chão", es: "Tierra", alt: ["Cielo", "Mar", "Aire"] },
+                { pt: "Sol", es: "Sol", alt: ["Luna", "Estrella", "Nube"] },
+                { pt: "Lua", es: "Luna", alt: ["Sol", "Cielo", "Noche"] },
+                { pt: "Estrela", es: "Estrella", alt: ["Planeta", "Sol", "Nube"] },
+                { pt: "Mar", es: "Mar", alt: ["Río", "Lago", "Piscina"] },
+                { pt: "Rio", es: "Río", alt: ["Mar", "Playa", "Cascada"] },
+                { pt: "Árvore", es: "Árbol", alt: ["Planta", "Flor", "Hoja"] }
+            ],
+            // Bloco 15: Ações Diárias e Conexões (Index 14)
+            [
+                { pt: "Fuja / Escapa", es: "Huye", alt: ["Ven", "Quédate", "Para"] },
+                { pt: "Mas (Porém)", es: "Pero", alt: ["Sino", "Porque", "Entonces"] },
+                { pt: "Então / Logo", es: "Entonces", alt: ["Pero", "Aunque", "Jamás"] },
+                { pt: "Tem (Possui)", es: "Tiene", alt: ["Hace", "Dice", "Quiere"] },
+                { pt: "Faz", es: "Hace", alt: ["Tiene", "Sabe", "Ve"] },
+                { pt: "Carregam / Levam", es: "Cargan", alt: ["Dejan", "Traen", "Miran"] },
+                { pt: "Usar / Levar", es: "Llevar", alt: ["Dejar", "Traer", "Buscar"] },
+                { pt: "Demorar / Tardar", es: "Tardar", alt: ["Avanzar", "Correr", "Salir"] },
+                { pt: "Barulho / Ruído", es: "Ruido", alt: ["Silencio", "Música", "Voz"] },
+                { pt: "Demais / Em excesso", es: "Demasiado", alt: ["Poco", "Suficiente", "Nada"] }
             ]
+        ];
         ];
       
 
