@@ -57,9 +57,10 @@
             <div class="progress-bar" id="progress-indicator"></div>
         </div>
 
-        <div id="tela-menu" class="grid-menu">
+       <div id="tela-menu" class="grid-menu">
             <h2>Voz Luno - Módulos</h2>
             <p>Escolha um contexto para treinar o seu espanhol prático:</p>
+            
             <button id="bloco-0" class="btn-bloco" onclick="carregarModulo(0)">
                 <span>✈️ Bloco 1: Aeroporto (Parte 1)</span>
                 <span id="badge-bloco-0" class="status-badge">Pendente</span>
@@ -79,6 +80,26 @@
             <button id="bloco-4" class="btn-bloco" onclick="carregarModulo(4)">
                 <span>🚕 Bloco 5: Táxi & Ônibus</span>
                 <span id="badge-bloco-4" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-5" class="btn-bloco" onclick="carregarModulo(5)">
+                <span>📅 Bloco 6: Calendário e Meses</span>
+                <span id="badge-bloco-5" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-6" class="btn-bloco" onclick="carregarModulo(6)">
+                <span>💪 Bloco 7: Corpo Humano</span>
+                <span id="badge-bloco-6" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-7" class="btn-bloco" onclick="carregarModulo(7)">
+                <span>🧠 Bloco 8: Sentimentos e Características</span>
+                <span id="badge-bloco-7" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-8" class="btn-bloco" onclick="carregarModulo(8)">
+                <span>🏠 Bloco 9: Objetos da Casa</span>
+                <span id="badge-bloco-8" class="status-badge">Pendente</span>
+            </button>
+            <button id="bloco-9" class="btn-bloco" onclick="carregarModulo(9)">
+                <span>🗣️ Bloco 10: Verbos e Expressões</span>
+                <span id="badge-bloco-9" class="status-badge">Pendente</span>
             </button>
         </div>
 
@@ -113,9 +134,9 @@
     </div>
 
     <script>
-        // BANCO DE DADOS CORE - ORGANIZADO EM BLOCOS ESTRITOS DE 10 ITEMS
+        // BANCO DE DADOS CORE - ATUALIZADO (BLOCO 1 AO BLOCO 10)
         const macroBlocos = [
-            // Bloco 1: Aeroporto Parte 1
+            // Bloco 1: Aeroporto Parte 1 (Index 0)
             [
                 { pt: "Passagem", es: "Billete", alt: ["Maleta", "Pasaporte", "Avión"] },
                 { pt: "Aeroporto", es: "Aeropuerto", alt: ["Estación", "Puerto", "Hotel"] },
@@ -128,7 +149,7 @@
                 { pt: "Cartão de Embarque", es: "Tarjeta de embarque", alt: ["Billete", "Pasaporte", "Maleta"] },
                 { pt: "Comissário de Voo", es: "Auxiliar de vuelo", alt: ["Piloto", "Pasajero", "Conductor"] }
             ],
-            // Bloco 2: Aeroporto Parte 2
+            // Bloco 2: Aeroporto Parte 2 (Index 1)
             [
                 { pt: "Alfândega", es: "Aduana", alt: ["Seguridad", "Salida", "Control"] },
                 { pt: "Escala", es: "Escala", alt: ["Retraso", "Llegada", "Salida"] },
@@ -141,7 +162,7 @@
                 { pt: "Piloto", es: "Piloto", alt: ["Capitán", "Conductor", "Auxiliar"] },
                 { pt: "Passageiro", es: "Pasajero", alt: ["Piloto", "Guía", "Camarero"] }
             ],
-            // Bloco 3: Restaurante
+            // Bloco 3: No Restaurante (Index 2)
             [
                 { pt: "Garçom", es: "Camarero", alt: ["Cocinero", "Gerente", "Cajero"] },
                 { pt: "Cardápio", es: "Menú", alt: ["Plato", "Cuenta", "Mesa"] },
@@ -150,11 +171,11 @@
                 { pt: "Cadeira", es: "Silla", alt: ["Mesa", "Vaso", "Plato"] },
                 { pt: "Mesa", es: "Mesa", alt: ["Silla", "Cocina", "Bar"] },
                 { pt: "Copo", es: "Vaso", alt: ["Taza", "Plato", "Botella"] },
-                { pt: "Plato", es: "Plato", alt: ["Vaso", "Cuchara", "Tenedor"] },
+                { pt: "Prato", es: "Plato", alt: ["Vaso", "Cuchara", "Tenedor"] },
                 { pt: "Talher", es: "Cubierto", alt: ["Cuchillo", "Tenedor", "Plato"] },
                 { pt: "Guardanapo", es: "Servilleta", alt: ["Mantel", "Vaso", "Plato"] }
             ],
-            // Bloco 4: Hotel
+            // Bloco 4: No Hotel (Index 3)
             [
                 { pt: "Quarto", es: "Habitación", alt: ["Baño", "Cama", "Salón"] },
                 { pt: "Reserva", es: "Reserva", alt: ["Pago", "Llave", "Registro"] },
@@ -167,7 +188,7 @@
                 { pt: "Toalha", es: "Toalla", alt: ["Sábana", "Manta", "Jabón"] },
                 { pt: "Gerente", es: "Gerente", alt: ["Botones", "Recepcionista", "Director"] }
             ],
-            // Bloco 5: Táxi e Ônibus
+            // Bloco 5: Táxi e Ônibus (Index 4)
             [
                 { pt: "Motorista", es: "Conductor", alt: ["Pasajero", "Piloto", "Guía"] },
                 { pt: "Endereço", es: "Dirección", alt: ["Calle", "Mapa", "Ciudad"] },
@@ -179,8 +200,74 @@
                 { pt: "Bagageiro", es: "Maletero", alt: ["Asiento", "Puerta", "Motor"] },
                 { pt: "Esquina", es: "Esquina", alt: ["Cruce", "Calle", "Acera"] },
                 { pt: "Sinal de Trânsito", es: "Semáforo", alt: ["Señal", "Cruce", "Policía"] }
+            ],
+            // Bloco 6: Calendário e Meses (Index 5)
+            [
+                { pt: "Janeiro", es: "Enero", alt: ["Febrero", "Marzo", "Lunes"] },
+                { pt: "Fevereiro", es: "Febrero", alt: ["Enero", "Junio", "Martes"] },
+                { pt: "Março", es: "Marzo", alt: ["Mayo", "Julio", "Abril"] },
+                { pt: "Maio", es: "Mayo", alt: ["Marzo", "Junio", "Agosto"] },
+                { pt: "Junho", es: "Junio", alt: ["Julio", "Enero", "Febrero"] },
+                { pt: "Julho", es: "Julio", alt: ["Junio", "Agosto", "Septiembre"] },
+                { pt: "Agosto", es: "Agosto", alt: ["Julio", "Octubre", "Mayo"] },
+                { pt: "Segunda-Feira", es: "Lunes", alt: ["Martes", "Viernes", "Domingo"] },
+                { pt: "Terça-Feira", es: "Martes", alt: ["Lunes", "Miércoles", "Jueves"] },
+                { pt: "Data", es: "Fecha", alt: ["Hora", "Año", "Mes"] }
+            ],
+            // Bloco 7: Corpo Humano (Index 6)
+            [
+                { pt: "Sobrancelha", es: "Ceja", alt: ["Ojo", "Boca", "Oreja"] },
+                { pt: "Bumbum", es: "Trasero", alt: ["Espalda", "Pierna", "Brazo"] },
+                { pt: "Bochechas", es: "Mejillas", alt: ["Ojos", "Labios", "Dientes"] },
+                { pt: "Peitos / Seios", es: "Pechos", alt: ["Brazos", "Manos", "Pies"] },
+                { pt: "Joelhos", es: "Rodillas", alt: ["Codos", "Hombros", "Piernas"] },
+                { pt: "Cabelo", es: "Pelo", alt: ["Uña", "Piel", "Cara"] },
+                { pt: "Mão", es: "Mano", alt: ["Pie", "Dedo", "Brazo"] },
+                { pt: "Pé", es: "Pie", alt: ["Mano", "Pierna", "Tobillo"] },
+                { pt: "Dedos", es: "Dedos", alt: ["Uñas", "Ojos", "Orejas"] },
+                { pt: "Coração", es: "Corazón", alt: ["Pulmón", "Estómago", "Sangre"] }
+            ],
+            // Bloco 8: Sentimentos e Características (Index 7)
+            [
+                { pt: "Ciumento", es: "Celoso", alt: ["Alegre", "Triste", "Enojado"] },
+                { pt: "Distraída", es: "Despistada", alt: ["Atenta", "Inteligente", "Rápida"] },
+                { pt: "Bonito", es: "Guapo", alt: ["Feo", "Gordo", "Flaco"] },
+                { pt: "Esperto / Pronto", es: "Listo", alt: ["Tonto", "Lento", "Ocupado"] },
+                { pt: "Cheio", es: "Lleno", alt: ["Vacío", "Limpio", "Sucio"] },
+                { pt: "Vazio", es: "Vacío", alt: ["Lleno", "Pesado", "Ligero"] },
+                { pt: "Quebrado", es: "Roto", alt: ["Nuevo", "Sano", "Fuerte"] },
+                { pt: "Legal / Bacana", es: "Chévere", alt: ["Malo", "Aburrido", "Feo"] },
+                { pt: "Treino", es: "Entrenamiento", alt: ["Partido", "Descanso", "Viaje"] },
+                { pt: "Preciso (Necessito)", es: "Necesito", alt: ["Quiero", "Tengo", "Hago"] }
+            ],
+            // Bloco 9: Objetos e Utensílios da Casa (Index 8)
+            [
+                { pt: "Casa", es: "Casa", alt: ["Edificio", "Hotel", "Oficina"] },
+                { pt: "Guarda-Chuva", es: "Paraguas", alt: ["Sombrero", "Abrigo", "Guantes"] },
+                { pt: "Binóculo", es: "Prismático", alt: ["Gafas", "Espejo", "Lupa"] },
+                { pt: "Óculos", es: "Gafas", alt: ["Prismático", "Reloj", "Anillo"] },
+                { pt: "Garfo", es: "Tenedor", alt: ["Cuchara", "Cuchillo", "Plato"] },
+                { pt: "Vassoura", es: "Escoba", alt: ["Trapeador", "Balde", "Esponja"] },
+                { pt: "Escritório", es: "Oficina", alt: ["Habitación", "Cocina", "Baño"] },
+                { pt: "Escada", es: "Escalera", alt: ["Ascensor", "Piso", "Techo"] },
+                { pt: "Brinquedo", es: "Juguete", alt: ["Libro", "Juego", "Película"] },
+                { pt: "Dinheiro", es: "Plata", alt: ["Tarjeta", "Cheque", "Bolsa"] }
+            ],
+            // Bloco 10: Verbos e Expressões Comuns (Index 9)
+            [
+                { pt: "Começar", es: "Comenzar", alt: ["Terminar", "Parar", "Continuar"] },
+                { pt: "Tudo Bem?", es: "Qué tal", alt: ["Adiós", "Gracias", "Por favor"] },
+                { pt: "Devagar", es: "Despacio", alt: ["Rápido", "Pronto", "Ahora"] },
+                { pt: "Dançar", es: "Bailar", alt: ["Cantar", "Correr", "Hablar"] },
+                { pt: "Lembre-se", es: "Recuerda", alt: ["Olvida", "Piensa", "Sabe"] },
+                { pt: "Criança", es: "Niño", alt: ["Adulto", "Viejo", "Joven"] },
+                { pt: "Acreditar", es: "Creer", alt: ["Dudar", "Saber", "Pensar"] },
+                { pt: "Esquecer", es: "Olvidar", alt: ["Recordar", "Aprender", "Guardar"] },
+                { pt: "Ficar (Permanecer)", es: "Quedarse", alt: ["Salir", "Irse", "Caminar"] },
+                { pt: "Ouvir", es: "Escuchar", alt: ["Mirar", "Hablar", "Escribir"] }
             ]
         ];
+      
 
         // Variáveis de Controle Operacional
         let moduloAtual = 0;
