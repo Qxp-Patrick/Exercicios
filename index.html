@@ -3,129 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voz Luno - Fluidez no Espanhol</title>
+    <title>Voz Luno - Completo</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
         body { background-color: #f7f9fc; margin: 0; padding: 15px; color: #333; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 480px; background: #ffffff; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); margin-top: 10px; min-height: 80vh; display: flex; flex-direction: column; justify-content: space-between; }
-        
         h2 { text-align: center; color: #2b3a4a; margin-top: 0; font-size: 22px; font-weight: 700; }
         p { text-align: center; color: #7b8a99; font-size: 15px; margin-bottom: 20px; line-height: 1.4; }
-        
-        /* Menu Principal */
-        .grid-menu { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-        .btn-bloco { width: 100%; padding: 18px; border: 2px solid #e2e8f0; background: #fff; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
+        .grid-menu { display: flex; flex-direction: column; gap: 12px; width: 100%; max-height: 75vh; overflow-y: auto; padding-right: 4px; }
+        .btn-bloco { width: 100%; padding: 16px; border: 2px solid #e2e8f0; background: #fff; border-radius: 12px; font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
         .btn-bloco:active { transform: scale(0.98); }
         .btn-bloco.concluido { border-color: #2cd46b; background-color: #f0fdf4; color: #166534; }
-        .status-badge { font-size: 12px; padding: 6px 12px; border-radius: 20px; background: #f1f5f9; color: #64748b; font-weight: bold; }
+        .status-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: #f1f5f9; color: #64748b; font-weight: bold; }
         .concluido .status-badge { background: #2cd46b; color: white; }
-
-        /* Barra de Progresso Interna */
         .progress-bar-container { width: 100%; background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 20px; overflow: hidden; display: none; }
         .progress-bar { height: 100%; background: #3b82f6; width: 0%; transition: width 0.3s ease; }
-
-        /* Tela de Reconhecimento */
         .lista-reconhecimento { display: flex; flex-direction: column; gap: 8px; max-height: 45vh; overflow-y: auto; padding-right: 4px; }
         .item-reconhecer { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 500; }
         .item-reconhecer:active { background: #cbd5e1; }
         .speaker-icon { color: #3b82f6; font-size: 18px; }
-
-        /* Múltipla Escolha */
         .palavra-pergunta { font-size: 26px; font-weight: 800; text-align: center; margin: 30px 0; color: #1e3a8a; }
         .opcoes-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .btn-opcao { width: 100%; padding: 16px; border: 2px solid #e2e8f0; background: white; border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.15s ease; }
-        
-        /* Associação (Ligar Colunas) */
         .colunas-combinar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; width: 100%; }
         .coluna { display: flex; flex-direction: column; gap: 8px; }
         .btn-combinar { padding: 14px 8px; border: 2px solid #e2e8f0; background: white; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; text-align: center; min-height: 54px; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
         .btn-combinar.selecionado { border-color: #3b82f6; background-color: #eff6ff; color: #1e40af; }
         .btn-combinar.correto { border-color: #2cd46b; background-color: #f0fdf4; color: #166534; pointer-events: none; opacity: 0.6; }
-
-        /* Botão de Ação Inferior */
-        .btn-acao-principal { width: 100%; padding: 16px; background: #3b82f6; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; margin-top: 24px; cursor: pointer; transition: background 0.2s; }
+        .btn-acao-principal { width: 100%; padding: 16px; background: #3b82f6; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; margin-top: 24px; cursor: pointer; }
         .btn-acao-principal:hover { background: #2563eb; }
-
         .oculto { display: none !important; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
-        <div class="progress-bar-container" id="global-progress">
-            <div class="progress-bar" id="progress-indicator"></div>
-        </div>
+        <div class="progress-bar-container" id="global-progress"><div class="progress-bar" id="progress-indicator"></div></div>
 
-       <div id="tela-menu" class="grid-menu">
+        <!-- MENU COM OS 26 BLOCOS ORGANIZADOS -->
+        <div id="tela-menu" class="grid-menu">
             <h2>Voz Luno - Módulos</h2>
-            <p>Escolha um contexto para treinar o seu espanhol prático:</p>
-            
-            <button id="bloco-0" class="btn-bloco" onclick="carregarModulo(0)">
-                <span>✈️ Bloco 1: Aeroporto (Parte 1)</span>
-                <span id="badge-bloco-0" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-1" class="btn-bloco" onclick="carregarModulo(1)">
-                <span>🧳 Bloco 2: Aeroporto (Parte 2)</span>
-                <span id="badge-bloco-1" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-2" class="btn-bloco" onclick="carregarModulo(2)">
-                <span>🍽️ Bloco 3: No Restaurante</span>
-                <span id="badge-bloco-2" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-3" class="btn-bloco" onclick="carregarModulo(3)">
-                <span>🏨 Bloco 4: No Hotel</span>
-                <span id="badge-bloco-3" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-4" class="btn-bloco" onclick="carregarModulo(4)">
-                <span>🚕 Bloco 5: Táxi & Ônibus</span>
-                <span id="badge-bloco-4" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-5" class="btn-bloco" onclick="carregarModulo(5)">
-                <span>📅 Bloco 6: Calendário e Meses</span>
-                <span id="badge-bloco-5" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-6" class="btn-bloco" onclick="carregarModulo(6)">
-                <span>💪 Bloco 7: Corpo Humano</span>
-                <span id="badge-bloco-6" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-7" class="btn-bloco" onclick="carregarModulo(7)">
-                <span>🧠 Bloco 8: Sentimentos e Características</span>
-                <span id="badge-bloco-7" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-8" class="btn-bloco" onclick="carregarModulo(8)">
-                <span>🏠 Bloco 9: Objetos da Casa</span>
-                <span id="badge-bloco-8" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-9" class="btn-bloco" onclick="carregarModulo(9)">
-                <span>🗣️ Bloco 10: Verbos e Expressões</span>
-                <span id="badge-bloco-9" class="status-badge">Pendente</span>
-            </button>
-           <button id="bloco-10" class="btn-bloco" onclick="carregarModulo(10)">
-                <span>👨‍👩‍👧 Bloco 11: Relações Familiares</span>
-                <span id="badge-bloco-10" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-11" class="btn-bloco" onclick="carregarModulo(11)">
-                <span>🎨 Bloco 12: Cores e Vestuário</span>
-                <span id="badge-bloco-11" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-12" class="btn-bloco" onclick="carregarModulo(12)">
-                <span>🧭 Bloco 13: Direções e Espaço</span>
-                <span id="badge-bloco-12" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-13" class="btn-bloco" onclick="carregarModulo(13)">
-                <span>🌲 Bloco 14: Elementos da Natureza</span>
-                <span id="badge-bloco-13" class="status-badge">Pendente</span>
-            </button>
-            <button id="bloco-14" class="btn-bloco" onclick="carregarModulo(14)">
-                <span>⚡ Bloco 15: Ações e Conexões</span>
-                <span id="badge-bloco-14" class="status-badge">Pendente</span>
-            </button>
+            <p>Selecione um contexto para treinar (260 palavras):</p>
+            <button id="bloco-0" class="btn-bloco" onclick="carregarModulo(0)"><span>✈️ Bloco 1: Aeroporto (Parte 1)</span><span id="badge-bloco-0" class="status-badge">Pendente</span></button>
+            <button id="bloco-1" class="btn-bloco" onclick="carregarModulo(1)"><span>🧳 Bloco 2: Aeroporto (Parte 2)</span><span id="badge-bloco-1" class="status-badge">Pendente</span></button>
+            <button id="bloco-2" class="btn-bloco" onclick="carregarModulo(2)"><span>🍽️ Bloco 3: No Restaurante</span><span id="badge-bloco-2" class="status-badge">Pendente</span></button>
+            <button id="bloco-3" class="btn-bloco" onclick="carregarModulo(3)"><span>🏨 Bloco 4: No Hotel</span><span id="badge-bloco-3" class="status-badge">Pendente</span></button>
+            <button id="bloco-4" class="btn-bloco" onclick="carregarModulo(4)"><span>🚕 Bloco 5: Táxi & Ônibus</span><span id="badge-bloco-4" class="status-badge">Pendente</span></button>
+            <button id="bloco-5" class="btn-bloco" onclick="carregarModulo(5)"><span>📅 Bloco 6: Calendário e Meses</span><span id="badge-bloco-5" class="status-badge">Pendente</span></button>
+            <button id="bloco-6" class="btn-bloco" onclick="carregarModulo(6)"><span>💪 Bloco 7: Corpo Humano</span><span id="badge-bloco-6" class="status-badge">Pendente</span></button>
+            <button id="bloco-7" class="btn-bloco" onclick="carregarModulo(7)"><span>🧠 Bloco 8: Sentimentos e Traços</span><span id="badge-bloco-7" class="status-badge">Pendente</span></button>
+            <button id="bloco-8" class="btn-bloco" onclick="carregarModulo(8)"><span>🏠 Bloco 9: Objetos da Casa</span><span id="badge-bloco-8" class="status-badge">Pendente</span></button>
+            <button id="bloco-9" class="btn-bloco" onclick="carregarModulo(9)"><span>🗣️ Bloco 10: Verbos e Expressões</span><span id="badge-bloco-9" class="status-badge">Pendente</span></button>
+            <button id="bloco-10" class="btn-bloco" onclick="carregarModulo(10)"><span>👨‍👩‍👧 Bloco 11: Família e Relações</span><span id="badge-bloco-10" class="status-badge">Pendente</span></button>
+            <button id="bloco-11" class="btn-bloco" onclick="carregarModulo(11)"><span>🎨 Bloco 12: Cores e Vestuário</span><span id="badge-bloco-11" class="status-badge">Pendente</span></button>
+            <button id="bloco-12" class="btn-bloco" onclick="carregarModulo(12)"><span>🧭 Bloco 13: Direções e Espaço</span><span id="badge-bloco-12" class="status-badge">Pendente</span></button>
+            <button id="bloco-13" class="btn-bloco" onclick="carregarModulo(13)"><span>🌲 Bloco 14: Elementos da Natureza</span><span id="badge-bloco-13" class="status-badge">Pendente</span></button>
+            <button id="bloco-14" class="btn-bloco" onclick="carregarModulo(14)"><span>⚡ Bloco 15: Ações e Conexões</span><span id="badge-bloco-14" class="status-badge">Pendente</span></button>
+            <button id="bloco-15" class="btn-bloco" onclick="carregarModulo(15)"><span>🏃 Bloco 16: Verbos de Ação 1</span><span id="badge-bloco-15" class="status-badge">Pendente</span></button>
+            <button id="bloco-16" class="btn-bloco" onclick="carregarModulo(16)"><span>🥣 Bloco 17: Cozinha e Utensílios</span><span id="badge-bloco-16" class="status-badge">Pendente</span></button>
+            <button id="bloco-17" class="btn-bloco" onclick="carregarModulo(17)"><span>🍑 Bloco 18: Frutas e Alimentos 1</span><span id="badge-bloco-17" class="status-badge">Pendente</span></button>
+            <button id="bloco-18" class="btn-bloco" onclick="carregarModulo(18)"><span>🍳 Bloco 19: Alimentos e Refeições</span><span id="badge-bloco-18" class="status-badge">Pendente</span></button>
+            <button id="bloco-19" class="btn-bloco" onclick="carregarModulo(19)"><span>😤 Bloco 20: Estados de Espírito</span><span id="badge-bloco-19" class="status-badge">Pendente</span></button>
+            <button id="bloco-20" class="btn-bloco" onclick="carregarModulo(20)"><span>💬 Bloco 21: Diálogos Práticos</span><span id="badge-bloco-20" class="status-badge">Pendente</span></button>
+            <button id="bloco-21" class="btn-bloco" onclick="carregarModulo(21)"><span>⏳ Bloco 22: Advérbios e Tempo</span><span id="badge-bloco-21" class="status-badge">Pendente</span></button>
+            <button id="bloco-22" class="btn-bloco" onclick="carregarModulo(22)"><span>💼 Bloco 23: Trabalho e Comércio</span><span id="badge-bloco-22" class="status-badge">Pendente</span></button>
+            <button id="bloco-23" class="btn-bloco" onclick="carregarModulo(23)"><span>🍂 Bloco 24: Estações e Clima</span><span id="badge-bloco-23" class="status-badge">Pendente</span></button>
+            <button id="bloco-24" class="btn-bloco" onclick="carregarModulo(24)"><span>🎬 Bloco 25: Lazer e Rotina</span><span id="badge-bloco-24" class="status-badge">Pendente</span></button>
+            <button id="bloco-25" class="btn-bloco" onclick="carregarModulo(25)"><span>🎯 Bloco 26: Expressões Finais</span><span id="badge-bloco-25" class="status-badge">Pendente</span></button>
         </div>
 
         <div id="tela-reconhecimento" class="oculto">
             <h2>Reconhecimento Vocabular</h2>
-            <p>Toque em cada expressão para ouvir a pronúncia correta em espanhol antes de iniciar o jogo técnico.</p>
+            <p>Toque na expressão para ouvir a pronúncia nativa antes do teste.</p>
             <div class="lista-reconhecimento" id="container-reconhecer"></div>
             <button class="btn-acao-principal" onclick="iniciarMultiplaEscolha()">Iniciar Exercícios</button>
         </div>
@@ -138,11 +87,8 @@
 
         <div id="tela-combinar" class="oculto">
             <h2>Associação Equivalente</h2>
-            <p>Combine os pares corretos selecionando uma palavra de cada lado da tabela.</p>
-            <div class="colunas-combinar">
-                <div class="coluna" id="coluna-espanhol"></div>
-                <div class="coluna" id="coluna-portugues"></div>
-            </div>
+            <p>Combine os pares corretos selecionando uma palavra de cada lado.</p>
+            <div class="colunas-combinar"><div class="coluna" id="coluna-espanhol"></div><div class="coluna" id="coluna-portugues"></div></div>
         </div>
 
         <div id="tela-parabens" class="oculto">
@@ -150,220 +96,67 @@
             <p id="mensagem-resultado" style="font-size: 16px; font-weight: 500;"></p>
             <button class="btn-acao-principal" id="btn-concluir-modulo" onclick="voltarAoMenu()">Retornar ao Menu</button>
         </div>
-
     </div>
 
     <script>
-        // BANCO DE DADOS CORE - ATUALIZADO (BLOCO 1 AO BLOCO 10)
+        // AS 260 PALAVRAS DO DOCUMENTO DIVIDIDAS EM BLOCOS EXATOS DE 10 ITEMS
         const macroBlocos = [
-            // Bloco 1: Aeroporto Parte 1 (Index 0)
-            [
-                { pt: "Passagem", es: "Billete", alt: ["Maleta", "Pasaporte", "Avión"] },
-                { pt: "Aeroporto", es: "Aeropuerto", alt: ["Estación", "Puerto", "Hotel"] },
-                { pt: "Bagagem", es: "Equipaje", alt: ["Viaje", "Asiento", "Piloto"] },
-                { pt: "Avião", es: "Avión", alt: ["Coche", "Tren", "Autobús"] },
-                { pt: "Passaporte", es: "Pasaporte", alt: ["Billete", "Tarjeta", "Permiso"] },
-                { pt: "Voo", es: "Vuelo", alt: ["Viaje", "Destino", "Asiento"] },
-                { pt: "Poltrona / Assento", es: "Asiento", alt: ["Vuelo", "Equipaje", "Puerta"] },
-                { pt: "Portão de Embarque", es: "Puerta de embarque", alt: ["Mostrador", "Pista", "Aduana"] },
-                { pt: "Cartão de Embarque", es: "Tarjeta de embarque", alt: ["Billete", "Pasaporte", "Maleta"] },
-                { pt: "Comissário de Voo", es: "Auxiliar de vuelo", alt: ["Piloto", "Pasajero", "Conductor"] }
-            ],
-            // Bloco 2: Aeroporto Parte 2 (Index 1)
-            [
-                { pt: "Alfândega", es: "Aduana", alt: ["Seguridad", "Salida", "Control"] },
-                { pt: "Escala", es: "Escala", alt: ["Retraso", "Llegada", "Salida"] },
-                { pt: "Atraso", es: "Retraso", alt: ["Puntual", "Cancelado", "Espera"] },
-                { pt: "Esteira de Bagagem", es: "Cinta de equipaje", alt: ["Mostrador", "Aduana", "Control"] },
-                { pt: "Conexão", es: "Conexión", alt: ["Vuelo", "Escala", "Directo"] },
-                { pt: "Decolagem", es: "Despegue", alt: ["Aterrizaje", "Vuelo", "Salida"] },
-                { pt: "Pouso", es: "Aterrizaje", alt: ["Despegue", "Vuelo", "Llegada"] },
-                { pt: "Balcão de Atendimento", es: "Mostrador", alt: ["Oficina", "Asiento", "Cinta"] },
-                { pt: "Piloto", es: "Piloto", alt: ["Capitán", "Conductor", "Auxiliar"] },
-                { pt: "Passageiro", es: "Pasajero", alt: ["Piloto", "Guía", "Camarero"] }
-            ],
-            // Bloco 3: No Restaurante (Index 2)
-            [
-                { pt: "Garçom", es: "Camarero", alt: ["Cocinero", "Gerente", "Cajero"] },
-                { pt: "Cardápio", es: "Menú", alt: ["Plato", "Cuenta", "Mesa"] },
-                { pt: "Conta", es: "Cuenta", alt: ["Precio", "Propina", "Dinero"] },
-                { pt: "Gorjeta", es: "Propina", alt: ["Cuenta", "Regalo", "Pago"] },
-                { pt: "Cadeira", es: "Silla", alt: ["Mesa", "Vaso", "Plato"] },
-                { pt: "Mesa", es: "Mesa", alt: ["Silla", "Cocina", "Bar"] },
-                { pt: "Copo", es: "Vaso", alt: ["Taza", "Plato", "Botella"] },
-                { pt: "Prato", es: "Plato", alt: ["Vaso", "Cuchara", "Tenedor"] },
-                { pt: "Talher", es: "Cubierto", alt: ["Cuchillo", "Tenedor", "Plato"] },
-                { pt: "Guardanapo", es: "Servilleta", alt: ["Mantel", "Vaso", "Plato"] }
-            ],
-            // Bloco 4: No Hotel (Index 3)
-            [
-                { pt: "Quarto", es: "Habitación", alt: ["Baño", "Cama", "Salón"] },
-                { pt: "Reserva", es: "Reserva", alt: ["Pago", "Llave", "Registro"] },
-                { pt: "Chave", es: "Llave", alt: ["Tarjeta", "Puerta", "Candado"] },
-                { pt: "Recepção", es: "Recepción", alt: ["Entrada", "Oficina", "Salón"] },
-                { pt: "Hospedar-se", es: "Alojarse", alt: ["Viajar", "Dormir", "Salir"] },
-                { pt: "Café da Manhã", es: "Desayuno", alt: ["Almuerzo", "Cena", "Merienda"] },
-                { pt: "Elevador", es: "Ascensor", alt: ["Escalera", "Pasillo", "Puerta"] },
-                { pt: "Ar-Condicionado", es: "Aire acondicionado", alt: ["Calefacción", "Ventilador", "Frío"] },
-                { pt: "Toalha", es: "Toalla", alt: ["Sábana", "Manta", "Jabón"] },
-                { pt: "Gerente", es: "Gerente", alt: ["Botones", "Recepcionista", "Director"] }
-            ],
-            // Bloco 5: Táxi e Ônibus (Index 4)
-            [
-                { pt: "Motorista", es: "Conductor", alt: ["Pasajero", "Piloto", "Guía"] },
-                { pt: "Endereço", es: "Dirección", alt: ["Calle", "Mapa", "Ciudad"] },
-                { pt: "Rua", es: "Calle", alt: ["Avenida", "Ruta", "Camino"] },
-                { pt: "Ponto de Ônibus", es: "Parada de autobús", alt: ["Estación", "Terminal", "Metro"] },
-                { pt: "Tarifa / Preço", es: "Tarifa", alt: ["Cuenta", "Billete", "Cambio"] },
-                { pt: "Troco", es: "Cambio", alt: ["Dinero", "Billete", "Tarifa"] },
-                { pt: "Destino", es: "Destino", alt: ["Viaje", "Ruta", "Llegada"] },
-                { pt: "Bagageiro", es: "Maletero", alt: ["Asiento", "Puerta", "Motor"] },
-                { pt: "Esquina", es: "Esquina", alt: ["Cruce", "Calle", "Acera"] },
-                { pt: "Sinal de Trânsito", es: "Semáforo", alt: ["Señal", "Cruce", "Policía"] }
-            ],
-            // Bloco 6: Calendário e Meses (Index 5)
-            [
-                { pt: "Janeiro", es: "Enero", alt: ["Febrero", "Marzo", "Lunes"] },
-                { pt: "Fevereiro", es: "Febrero", alt: ["Enero", "Junio", "Martes"] },
-                { pt: "Março", es: "Marzo", alt: ["Mayo", "Julio", "Abril"] },
-                { pt: "Maio", es: "Mayo", alt: ["Marzo", "Junio", "Agosto"] },
-                { pt: "Junho", es: "Junio", alt: ["Julio", "Enero", "Febrero"] },
-                { pt: "Julho", es: "Julio", alt: ["Junio", "Agosto", "Septiembre"] },
-                { pt: "Agosto", es: "Agosto", alt: ["Julio", "Octubre", "Mayo"] },
-                { pt: "Segunda-Feira", es: "Lunes", alt: ["Martes", "Viernes", "Domingo"] },
-                { pt: "Terça-Feira", es: "Martes", alt: ["Lunes", "Miércoles", "Jueves"] },
-                { pt: "Data", es: "Fecha", alt: ["Hora", "Año", "Mes"] }
-            ],
-            // Bloco 7: Corpo Humano (Index 6)
-            [
-                { pt: "Sobrancelha", es: "Ceja", alt: ["Ojo", "Boca", "Oreja"] },
-                { pt: "Bumbum", es: "Trasero", alt: ["Espalda", "Pierna", "Brazo"] },
-                { pt: "Bochechas", es: "Mejillas", alt: ["Ojos", "Labios", "Dientes"] },
-                { pt: "Peitos / Seios", es: "Pechos", alt: ["Brazos", "Manos", "Pies"] },
-                { pt: "Joelhos", es: "Rodillas", alt: ["Codos", "Hombros", "Piernas"] },
-                { pt: "Cabelo", es: "Pelo", alt: ["Uña", "Piel", "Cara"] },
-                { pt: "Mão", es: "Mano", alt: ["Pie", "Dedo", "Brazo"] },
-                { pt: "Pé", es: "Pie", alt: ["Mano", "Pierna", "Tobillo"] },
-                { pt: "Dedos", es: "Dedos", alt: ["Uñas", "Ojos", "Orejas"] },
-                { pt: "Coração", es: "Corazón", alt: ["Pulmón", "Estómago", "Sangre"] }
-            ],
-            // Bloco 8: Sentimentos e Características (Index 7)
-            [
-                { pt: "Ciumento", es: "Celoso", alt: ["Alegre", "Triste", "Enojado"] },
-                { pt: "Distraída", es: "Despistada", alt: ["Atenta", "Inteligente", "Rápida"] },
-                { pt: "Bonito", es: "Guapo", alt: ["Feo", "Gordo", "Flaco"] },
-                { pt: "Esperto / Pronto", es: "Listo", alt: ["Tonto", "Lento", "Ocupado"] },
-                { pt: "Cheio", es: "Lleno", alt: ["Vacío", "Limpio", "Sucio"] },
-                { pt: "Vazio", es: "Vacío", alt: ["Lleno", "Pesado", "Ligero"] },
-                { pt: "Quebrado", es: "Roto", alt: ["Nuevo", "Sano", "Fuerte"] },
-                { pt: "Legal / Bacana", es: "Chévere", alt: ["Malo", "Aburrido", "Feo"] },
-                { pt: "Treino", es: "Entrenamiento", alt: ["Partido", "Descanso", "Viaje"] },
-                { pt: "Preciso (Necessito)", es: "Necesito", alt: ["Quiero", "Tengo", "Hago"] }
-            ],
-            // Bloco 9: Objetos e Utensílios da Casa (Index 8)
-            [
-                { pt: "Casa", es: "Casa", alt: ["Edificio", "Hotel", "Oficina"] },
-                { pt: "Guarda-Chuva", es: "Paraguas", alt: ["Sombrero", "Abrigo", "Guantes"] },
-                { pt: "Binóculo", es: "Prismático", alt: ["Gafas", "Espejo", "Lupa"] },
-                { pt: "Óculos", es: "Gafas", alt: ["Prismático", "Reloj", "Anillo"] },
-                { pt: "Garfo", es: "Tenedor", alt: ["Cuchara", "Cuchillo", "Plato"] },
-                { pt: "Vassoura", es: "Escoba", alt: ["Trapeador", "Balde", "Esponja"] },
-                { pt: "Escritório", es: "Oficina", alt: ["Habitación", "Cocina", "Baño"] },
-                { pt: "Escada", es: "Escalera", alt: ["Ascensor", "Piso", "Techo"] },
-                { pt: "Brinquedo", es: "Juguete", alt: ["Libro", "Juego", "Película"] },
-                { pt: "Dinheiro", es: "Plata", alt: ["Tarjeta", "Cheque", "Bolsa"] }
-            ],
-            // Bloco 10: Verbos e Expressões Comuns (Index 9)
-            [
-                { pt: "Começar", es: "Comenzar", alt: ["Terminar", "Parar", "Continuar"] },
-                { pt: "Tudo Bem?", es: "Qué tal", alt: ["Adiós", "Gracias", "Por favor"] },
-                { pt: "Devagar", es: "Despacio", alt: ["Rápido", "Pronto", "Ahora"] },
-                { pt: "Dançar", es: "Bailar", alt: ["Cantar", "Correr", "Hablar"] },
-                { pt: "Lembre-se", es: "Recuerda", alt: ["Olvida", "Piensa", "Sabe"] },
-                { pt: "Criança", es: "Niño", alt: ["Adulto", "Viejo", "Joven"] },
-                { pt: "Acreditar", es: "Creer", alt: ["Dudar", "Saber", "Pensar"] },
-                { pt: "Esquecer", es: "Olvidar", alt: ["Recordar", "Aprender", "Guardar"] },
-                { pt: "Ficar (Permanecer)", es: "Quedarse", alt: ["Salir", "Irse", "Caminar"] },
-                { pt: "Ouvir", es: "Escuchar", alt: ["Mirar", "Hablar", "Escribir"] }
-            ],
-            // Bloco 11: Relações Familiares e Pessoas (Index 10)
-            [
-                { pt: "Avô", es: "Abuelo", alt: ["Tío", "Primo", "Padre"] },
-                { pt: "Avó", es: "Abuela", alt: ["Tía", "Madre", "Sobrina"] },
-                { pt: "Criança / Rapaz", es: "Chico", alt: ["Hombre", "Mujer", "Anciano"] },
-                { pt: "Mãe", es: "Madre", alt: ["Padre", "Hermana", "Abuela"] },
-                { pt: "Pai", es: "Padre", alt: ["Madre", "Hermano", "Abuelo"] },
-                { pt: "Irmão", es: "Hermano", alt: ["Primo", "Tío", "Sobrino"] },
-                { pt: "Irmã", es: "Hermana", alt: ["Prima", "Tía", "Sobrina"] },
-                { pt: "Tio", es: "Tío", alt: ["Sobrino", "Abuelo", "Padre"] },
-                { pt: "Tia", es: "Tía", alt: ["Sobrina", "Abuela", "Madre"] },
-                { pt: "Aniversário", es: "Cumpleaños", alt: ["Fiesta", "Regalo", "Boda"] }
-            ],
-            // Bloco 12: Cores e Vestuário (Index 11)
-            [
-                { pt: "Vermelho", es: "Rojo", alt: ["Azul", "Verde", "Blanco"] },
-                { pt: "Cartão / Tarjeta", es: "Tarjeta", alt: ["Billete", "Papel", "Sobre"] },
-                { pt: "Manta / Cobertor", es: "Manta", alt: ["Sábana", "Almohada", "Toalla"] },
-                { pt: "Casaco / Abrigo", es: "Abrigo", alt: ["Camisa", "Pantalón", "Zapatos"] },
-                { pt: "Roupa", es: "Ropa", alt: ["Maleta", "Tela", "Bolsa"] },
-                { pt: "Preto", es: "Negro", alt: ["Blanco", "Gris", "Amarillo"] },
-                { pt: "Branco", es: "Blanco", alt: ["Negro", "Azul", "Rojo"] },
-                { pt: "Azul", es: "Azul", alt: ["Verde", "Rojo", "Rosa"] },
-                { pt: "Verde", es: "Verde", alt: ["Amarillo", "Azul", "Gris"] },
-                { pt: "Sapato", es: "Zapato", alt: ["Bota", "Sandalia", "Calcetín"] }
-            ],
-            // Bloco 13: Direções, Espaço e Distância (Index 12)
-            [
-                { pt: "Longe", es: "Lejos", alt: ["Cerca", "Aquí", "Allí"] },
-                { pt: "Perto", es: "Cerca", alt: ["Lejos", "Arriba", "Abajo"] },
-                { pt: "Aproximando", es: "Cercando", alt: ["Alejando", "Corriendo", "Saltando"] },
-                { pt: "Frente / Adiante", es: "Adelante", alt: ["Atrás", "Debajo", "Arriba"] },
-                { pt: "Atrás", es: "Atrás", alt: ["Adelante", "Dentro", "Fuera"] },
-                { pt: "Dentro", es: "Dentro", alt: ["Fuera", "Arriba", "Abajo"] },
-                { pt: "Fora", es: "Fuera", alt: ["Dentro", "Cerca", "Lejos"] },
-                { pt: "Esquerda", es: "Izquierda", alt: ["Derecha", "Centro", "Recto"] },
-                { pt: "Direita", es: "Derecha", alt: ["Izquierda", "Centro", "Giro"] },
-                { pt: "Lugar / Sítio", es: "Lugar", alt: ["Tiempo", "Mapa", "País"] }
-            ],
-            // Bloco 14: Elementos da Natureza e Ambiente (Index 13)
-            [
-                { pt: "Pedras / Rochas", es: "Piedras", alt: ["Tierras", "Plantas", "Árboles"] },
-                { pt: "Fogo", es: "Fuego", alt: ["Agua", "Viento", "Tierra"] },
-                { pt: "Água", es: "Agua", alt: ["Fuego", "Leche", "Vino"] },
-                { pt: "Terra / Chão", es: "Tierra", alt: ["Cielo", "Mar", "Aire"] },
-                { pt: "Sol", es: "Sol", alt: ["Luna", "Estrella", "Nube"] },
-                { pt: "Lua", es: "Luna", alt: ["Sol", "Cielo", "Noche"] },
-                { pt: "Estrela", es: "Estrella", alt: ["Planeta", "Sol", "Nube"] },
-                { pt: "Mar", es: "Mar", alt: ["Río", "Lago", "Piscina"] },
-                { pt: "Rio", es: "Río", alt: ["Mar", "Playa", "Cascada"] },
-                { pt: "Árvore", es: "Árbol", alt: ["Planta", "Flor", "Hoja"] }
-            ],
-            // Bloco 15: Ações Diárias e Conexões (Index 14)
-            [
-                { pt: "Fuja / Escapa", es: "Huye", alt: ["Ven", "Quédate", "Para"] },
-                { pt: "Mas (Porém)", es: "Pero", alt: ["Sino", "Porque", "Entonces"] },
-                { pt: "Então / Logo", es: "Entonces", alt: ["Pero", "Aunque", "Jamás"] },
-                { pt: "Tem (Possui)", es: "Tiene", alt: ["Hace", "Dice", "Quiere"] },
-                { pt: "Faz", es: "Hace", alt: ["Tiene", "Sabe", "Ve"] },
-                { pt: "Carregam / Levam", es: "Cargan", alt: ["Dejan", "Traen", "Miran"] },
-                { pt: "Usar / Levar", es: "Llevar", alt: ["Dejar", "Traer", "Buscar"] },
-                { pt: "Demorar / Tardar", es: "Tardar", alt: ["Avanzar", "Correr", "Salir"] },
-                { pt: "Barulho / Ruído", es: "Ruido", alt: ["Silencio", "Música", "Voz"] },
-                { pt: "Demais / Em excesso", es: "Demasiado", alt: ["Poco", "Suficiente", "Nada"] }
-            ]
+            // Bloco 1
+            [{pt:"Passagem",es:"Billete",alt:["Maleta","Pasaporte","Avión"]},{pt:"Aeroporto",es:"Aeropuerto",alt:["Estación","Puerto","Hotel"]},{pt:"Bagagem",es:"Equipaje",alt:["Viaje","Asiento","Piloto"]},{pt:"Avião",es:"Avión",alt:["Coche","Tren","Autobús"]},{pt:"Passaporte",es:"Pasaporte",alt:["Billete","Tarjeta","Permiso"]},{pt:"Voo",es:"Vuelo",alt:["Viaje","Destino","Asiento"]},{pt:"Poltrona / Assento",es:"Asiento",alt:["Vuelo","Equipaje","Puerta"]},{pt:"Portão de Embarque",es:"Puerta de embarque",alt:["Mostrador","Pista","Aduana"]},{pt:"Cartão de Embarque",es:"Tarjeta de embarque",alt:["Billete","Pasaporte","Maleta"]},{pt:"Comissário de Voo",es:"Auxiliar de vuelo",alt:["Piloto","Pasajero","Conductor"]}],
+            // Bloco 2
+            [{pt:"Alfândega",es:"Aduana",alt:["Seguridad","Salida","Control"]},{pt:"Escala",es:"Escala",alt:["Retraso","Llegada","Salida"]},{pt:"Atraso",es:"Retraso",alt:["Puntual","Cancelado","Espera"]},{pt:"Esteira de Bagagem",es:"Cinta de equipaje",alt:["Mostrador","Aduana","Control"]},{pt:"Conexão",es:"Conexión",alt:["Vuelo","Escala","Directo"]},{pt:"Decolagem",es:"Despegue",alt:["Aterrizaje","Vuelo","Salida"]},{pt:"Pouso",es:"Aterrizaje",alt:["Despegue","Vuelo","Llegada"]},{pt:"Balcão de Atendimento",es:"Mostrador",alt:["Oficina","Asiento","Cinta"]},{pt:"Piloto",es:"Piloto",alt:["Capitán","Conductor","Auxiliar"]},{pt:"Passageiro",es:"Pasajero",alt:["Piloto","Guía","Camarero"]}],
+            // Bloco 3
+            [{pt:"Garçom",es:"Camarero",alt:["Cocinero","Gerente","Cajero"]},{pt:"Cardápio",es:"Menú",alt:["Plato","Cuenta","Mesa"]},{pt:"Conta",es:"Cuenta",alt:["Precio","Propina","Dinero"]},{pt:"Gorjeta",es:"Propina",alt:["Cuenta","Regalo","Pago"]},{pt:"Cadeira",es:"Silla",alt:["Mesa","Vaso","Plato"]},{pt:"Mesa",es:"Mesa",alt:["Silla","Cocina","Bar"]},{pt:"Copo",es:"Vaso",alt:["Taza","Plato","Botella"]},{pt:"Prato",es:"Plato",alt:["Vaso","Cuchara","Tenedor"]},{pt:"Talher",es:"Cubierto",alt:["Cuchillo","Tenedor","Plato"]},{pt:"Guardanapo",es:"Servilleta",alt:["Mantel","Vaso","Plato"]}],
+            // Bloco 4
+            [{pt:"Quarto",es:"Habitación",alt:["Baño","Cama","Salón"]},{pt:"Reserva",es:"Reserva",alt:["Pago","Llave","Registro"]},{pt:"Chave",es:"Llave",alt:["Tarjeta","Puerta","Candado"]},{pt:"Recepção",es:"Recepción",alt:["Entrada","Oficina","Salón"]},{pt:"Hospedar-se",es:"Alojarse",alt:["Viajar","Dormir","Salir"]},{pt:"Café da Manhã",es:"Desayuno",alt:["Almuerzo","Cena","Merienda"]},{pt:"Elevador",es:"Ascensor",alt:["Escalera","Pasillo","Puerta"]},{pt:"Ar-Condicionado",es:"Aire acondicionado",alt:["Calefacción","Ventilador","Frío"]},{pt:"Toalha",es:"Toalla",alt:["Sábana","Manta","Jabón"]},{pt:"Gerente",es:"Gerente",alt:["Botones","Recepcionista","Director"]}],
+            // Bloco 5
+            [{pt:"Motorista",es:"Conductor",alt:["Pasajero","Piloto","Guía"]},{pt:"Endereço",es:"Dirección",alt:["Calle","Mapa","Ciudad"]},{pt:"Rua",es:"Calle",alt:["Avenida","Ruta","Camino"]},{pt:"Ponto de Ônibus",es:"Parada de autobús",alt:["Estación","Terminal","Metro"]},{pt:"Tarifa / Preço",es:"Tarifa",alt:["Cuenta","Billete","Cambio"]},{pt:"Troco",es:"Cambio",alt:["Dinero","Billete","Tarifa"]},{pt:"Destino",es:"Destino",alt:["Viaje","Ruta","Llegada"]},{pt:"Bagageiro",es:"Maletero",alt:["Asiento","Puerta","Motor"]},{pt:"Esquina",es:"Esquina",alt:["Cruce","Calle","Acera"]},{pt:"Sinal de Trânsito",es:"Semáforo",alt:["Señal","Cruce","Policía"]}],
+            // Bloco 6
+            [{pt:"Janeiro",es:"Enero",alt:["Febrero","Marzo","Lunes"]},{pt:"Fevereiro",es:"Febrero",alt:["Enero","Junio","Martes"]},{pt:"Março",es:"Marzo",alt:["Mayo","Julio","Abril"]},{pt:"Maio",es:"Mayo",alt:["Marzo","Junio","Agosto"]},{pt:"Junho",es:"Junio",alt:["Julio","Enero","Febrero"]},{pt:"Julho",es:"Julio",alt:["Junio","Agosto","Septiembre"]},{pt:"Agosto",es:"Agosto",alt:["Julio","Octubre","Mayo"]},{pt:"Segunda-Feira",es:"Lunes",alt:["Martes","Viernes","Domingo"]},{pt:"Terça-Feira",es:"Martes",alt:["Lunes","Miércoles","Jueves"]},{pt:"Data",es:"Fecha",alt:["Hora","Año","Mes"]}],
+            // Bloco 7
+            [{pt:"Sobrancelha",es:"Ceja",alt:["Ojo","Boca","Oreja"]},{pt:"Bumbum",es:"Trasero",alt:["Espalda","Pierna","Brazo"]},{pt:"Bochechas",es:"Mejillas",alt:["Ojos","Labios","Dientes"]},{pt:"Peitos / Seios",es:"Pechos",alt:["Brazos","Manos","Pies"]},{pt:"Joelhos",es:"Rodillas",alt:["Codos","Hombros","Piernas"]},{pt:"Cabelo",es:"Pelo",alt:["Uña","Piel","Cara"]},{pt:"Mão",es:"Mano",alt:["Pie","Dedo","Brazo"]},{pt:"Pé",es:"Pie",alt:["Mano","Pierna","Tobillo"]},{pt:"Dedos",es:"Dedos",alt:["Uñas","Ojos","Orejas"]},{pt:"Coração",es:"Corazón",alt:["Pulmón","Estómago","Sangre"]}],
+            // Bloco 8
+            [{pt:"Ciumento",es:"Celoso",alt:["Alegre","Triste","Enojado"]},{pt:"Distraída",es:"Despestada",alt:["Atenta","Inteligente","Rápida"]},{pt:"Bonito",es:"Guapo",alt:["Feo","Gordo","Flaco"]},{pt:"Esperto / Pronto",es:"Listo",alt:["Tonto","Lento","Ocupado"]},{pt:"Cheio",es:"Lleno",alt:["Vacío","Limpio","Sucio"]},{pt:"Vazio",es:"Vacío",alt:["Lleno","Pesado","Ligero"]},{pt:"Quebrado",es:"Roto",alt:["Nuevo","Sano","Fuerte"]},{pt:"Legal / Bacana",es:"Chévere",alt:["Malo","Aburrido","Feo"]},{pt:"Treino",es:"Entrenamiento",alt:["Partido","Descanso","Viaje"]},{pt:"Preciso (Necessito)",es:"Necesito",alt:["Quiero","Tengo","Hago"]}],
+            // Bloco 9
+            [{pt:"Casa",es:"Casa",alt:["Edificio","Hotel","Oficina"]},{pt:"Guarda-Chuva",es:"Paraguas",alt:["Sombrero","Abrigo","Guantes"]},{pt:"Binóculo",es:"Prismático",alt:["Gafas","Espejo","Lupa"]},{pt:"Óculos",es:"Gafas",alt:["Prismático","Reloj","Anillo"]},{pt:"Garfo",es:"Tenedor",alt:["Cuchara","Cuchillo","Plato"]},{pt:"Vassoura",es:"Escoba",alt:["Trapeador","Balde","Esponja"]},{pt:"Escritório",es:"Oficina",alt:["Habitación","Cocina","Baño"]},{pt:"Escada",es:"Escalera",alt:["Ascensor","Piso","Techo"]},{pt:"Brinquedo",es:"Juguete",alt:["Libro","Juego","Película"]},{pt:"Dinheiro",es:"Plata",alt:["Tarjeta","Cheque","Bolsa"]}],
+            // Bloco 10
+            [{pt:"Começar",es:"Comenzar",alt:["Terminar","Parar","Continuar"]},{pt:"Tudo Bem?",es:"Qué tal",alt:["Adiós","Gracias","Por favor"]},{pt:"Devagar",es:"Despacio",alt:["Rápido","Pronto","Agora"]},{pt:"Dançar",es:"Bailar",alt:["Cantar","Correr","Hablar"]},{pt:"Lembre-se",es:"Recuerda",alt:["Olvida","Piensa","Sabe"]},{pt:"Criança",es:"Niño",alt:["Adulto","Viejo","Joven"]},{pt:"Acreditar",es:"Creer",alt:["Dudar","Saber","Pensar"]},{pt:"Esquecer",es:"Olvidar",alt:["Recordar","Aprender","Guardar"]},{pt:"Ficar (Permanecer)",es:"Quedarse",alt:["Salir","Irse","Caminar"]},{pt:"Ouvir",es:"Escuchar",alt:["Mirar","Hablar","Escribir"]}],
+            // Bloco 11
+            [{pt:"Avô",es:"Abuelo",alt:["Tío","Primo","Padre"]},{pt:"Avó",es:"Abuela",alt:["Tía","Madre","Sobrina"]},{pt:"Criança / Rapaz",es:"Chico",alt:["Hombre","Mujer","Anciano"]},{pt:"Mãe",es:"Madre",alt:["Padre","Hermana","Abuela"]},{pt:"Pai",es:"Padre",alt:["Madre","Hermano","Abuelo"]},{pt:"Irmão",es:"Hermano",alt:["Primo","Tío","Sobrino"]},{pt:"Irmã",es:"Hermana",alt:["Prima","Tía","Sobrina"]},{pt:"Tio",es:"Tío",alt:["Sobrino","Abuelo","Padre"]},{pt:"Tia",es:"Tía",alt:["Sobrina","Abuela","Madre"]},{pt:"Aniversário",es:"Cumpleaños",alt:["Fiesta","Regalo","Boda"]}],
+            // Bloco 12
+            [{pt:"Vermelho",es:"Rojo",alt:["Azul","Verde","Blanco"]},{pt:"Cartão / Tarjeta",es:"Tarjeta",alt:["Billete","Papel","Sobre"]},{pt:"Manta / Cobertor",es:"Manta",alt:["Sábana","Almohada","Toalla"]},{pt:"Casaco / Abrigo",es:"Abrigo",alt:["Camisa","Pantalón","Zapatos"]},{pt:"Roupa",es:"Ropa",alt:["Maleta","Tela","Bolsa"]},{pt:"Preto",es:"Negro",alt:["Blanco","Gris","Amarillo"]},{pt:"Branco",es:"Blanco",alt:["Negro","Azul","Rojo"]},{pt:"Azul",es:"Azul",alt:["Verde","Rojo","Rosa"]},{pt:"Verde",es:"Verde",alt:["Amarillo","Azul","Gris"]},{pt:"Sapato",es:"Zapato",alt:["Bota","Sandalia","Calcetín"]}],
+            // Bloco 13
+            [{pt:"Longe",es:"Lejos",alt:["Cerca","Aquí","Allí"]},{pt:"Perto",es:"Cerca",alt:["Lejos","Arriba","Abajo"]},{pt:"Aproximando",es:"Cercando",alt:["Alejando","Corriendo","Saltando"]},{pt:"Frente / Adiante",es:"Adelante",alt:["Atrás","Debajo","Arriba"]},{pt:"Atrás",es:"Atrás",alt:["Adelante","Dentro","Fuera"]},{pt:"Dentro",es:"Dentro",alt:["Fuera","Arriba","Abajo"]},{pt:"Fora",es:"Fuera",alt:["Dentro","Cerca","Lejos"]},{pt:"Esquerda",es:"Izquierda",alt:["Derecha","Centro","Recto"]},{pt:"Direita",es:"Derecha",alt:["Izquierda","Centro","Giro"]},{pt:"Lugar / Sítio",es:"Lugar",alt:["Tiempo","Mapa","País"]}],
+            // Bloco 14
+            [{pt:"Pedras / Rochas",es:"Piedras",alt:["Tierras","Plantas","Árboles"]},{pt:"Fogo",es:"Fuego",alt:["Agua","Viento","Tierra"]},{pt:"Água",es:"Agua",alt:["Fuego","Leche","Vino"]},{pt:"Terra / Chão",es:"Tierra",alt:["Cielo","Mar","Aire"]},{pt:"Sol",es:"Sol",alt:["Luna","Estrella","Nube"]},{pt:"Lua",es:"Luna",alt:["Sol","Cielo","Noche"]},{pt:"Estrela",es:"Estrella",alt:["Planeta","Sol","Nube"]},{pt:"Mar",es:"Mar",alt:["Río","Lago","Piscina"]},{pt:"Rio",es:"Río",alt:["Mar","Playa","Cascada"]},{pt:"Árvore",es:"Árbol",alt:["Planta","Flor","Hoja"]}],
+            // Bloco 15
+            [{pt:"Fuja / Escapa",es:"Huye",alt:["Ven","Quédate","Para"]},{pt:"Mas (Porém)",es:"Pero",alt:["Sino","Porque","Entonces"]},{pt:"Então / Logo",es:"Entonces",alt:["Pero","Aunque","Jamás"]},{pt:"Tem (Possui)",es:"Tiene",alt:["Hace","Dice","Quiere"]},{pt:"Faz",es:"Hace",alt:["Tiene","Sabe","Ve"]},{pt:"Carregam / Levam",es:"Cargan",alt:["Dejan","Traen","Miran"]},{pt:"Usar / Levar",es:"Llevar",alt:["Dejar","Traer","Buscar"]},{pt:"Demorar / Tardar",es:"Tardar",alt:["Avanzar","Correr","Salir"]},{pt:"Barulho / Ruído",es:"Ruido",alt:["Silencio","Música","Voz"]},{pt:"Demais / Em excesso",es:"Demasiado",alt:["Poco","Suficiente","Nada"]}],
+            // Bloco 16
+            [{pt:"Dançar",es:"Bailar",alt:["Cantar","Correr","Dormir"]},{pt:"Acreditar",es:"Creer",alt:["Dudar","Saber","Pensar"]},{pt:"Esquecer",es:"Olvidar",alt:["Recordar","Quedarse","Escuchar"]},{pt:"Consertando",es:"Arreglando",alt:["Rompiendo","Buscando","Mirando"]},{pt:"Acordar",es:"Despertar",alt:["Dormir","Cenar","Bailar"]},{pt:"Conseguir",es:"Lograr",alt:["Perder","Intentar","Buscar"]},{pt:"Virar",es:"Girar",alt:["Seguir","Parar","Correr"]},{pt:"Seguir reto",es:"Seguir recto",alt:["Girar","Doblar","Frenar"]},{pt:"Fritar",es:"Freír",alt:["Cocer","Hervir","Comer"]},{pt:"Ouvir",es:"Oír",alt:["Mirar","Hablar","Tocar"]}],
+            // Bloco 17: Cozinha e Utensílios
+            [{pt:"Colher",es:"Cuchara",alt:["Cuchillo","Tazón","Plato"]},{pt:"Faca",es:"Cuchillo",alt:["Cuchara","Tenedor","Taza"]},{pt:"Palitos Japoneses",es:"Palillos",alt:["Cubierto","Plato","Vaso"]},{pt:"Tigela",es:"Tazón",alt:["Plato","Taza","Botella"]},{pt:"Prato",es:"Plato",alt:["Tazón","Vaso","Servilleta"]},{pt:"Caneca",es:"Taza",alt:["Botella","Plato","Cuchara"]},{pt:"Garrafa",es:"Botella",alt:["Taza","Vaso","Tenedor"]},{pt:"Molho",es:"Salsa",alt:["Sopa","Agua","Jugo"]},{pt:"Guardanapo",es:"Servilleta",alt:["Mantel","Toalla","Ropa"]},{pt:"Frango",es:"Pollo",alt:["Cerdo","Res","Pescado"]}],
+            // Bloco 18: Frutas e Alimentos 1
+            [{pt:"Pêssego",es:"Durazno",alt:["Mandarina","Uva","Sandía"]},{pt:"Mexerica",es:"Mandarina",alt:["Piña","Aguacate","Fresa"]},{pt:"Uva",es:"Uva",alt:["Fresa","Plátano","Manzana"]},{pt:"Melancia",es:"Sandía",alt:["Melón","Piña","Naranja"]},{pt:"Abacaxi",es:"Piña",alt:["Aguacate","Limón","Manzana"]},{pt:"Abacate",es:"Aguacate",alt:["Piña","Fresa","Coco"]},{pt:"Batata",es:"Papa",alt:["Arroz","Frijol","Maíz"]},{pt:"Hambúrguer",es:"Hamburguesa",alt:["Pizza","Perrito","Sándwich"]},{pt:"Feijão",es:"Frijoles",alt:["Arroz","Lentejas","Garbanzos"]},{pt:"Biscoitos",es:"Galletas",alt:["Pastel","Pan","Dulce"]}],
+            // Bloco 19: Alimentos e Refeições
+            [{pt:"Ovo",es:"Huevo",alt:["Leche","Queso","Mantequilla"]},{pt:"Verduras",es:"Verduras",alt:["Frutas","Carnes","Dulces"]},{pt:"Pipoca",es:"Palmitas",alt:["Patatas","Galletas","Chocolate"]},{pt:"Morango",es:"Fresa",alt:["Frutilla","Manzana","Uva"]},{pt:"Milho",es:"Maíz",alt:["Trigo","Arroz","Papa"]},{pt:"Bife de boi",es:"Filete de res",alt:["Pollo","Cerdo","Pescado"]},{pt:"Porco",es:"Cerdo",alt:["Pollo","Res","Cordero"]},{pt:"Batatas Fritas",es:"Patatas fritas",alt:["Ensalada","Arroz","Sopa"]},{pt:"Almoço",es:"Almuerzo",alt:["Desayuno","Cena","Merienda"]},{pt:"Jantar",es:"Cenar",alt:["Desayuno","Almuerzo","Merienda"]}],
+            // Bloco 20: Estados de Espírito e Ofensas
+            [{pt:"Chateado",es:"Enojado",alt:["Alegre","Cansado","Listo"]},{pt:"Chato",es:"Aburrito",alt:["Divertido","Inteligente","Rápido"]},{pt:"Zangado",es:"Enfadado",alt:["Contento","Sorprendido","Calmado"]},{pt:"Preguiçoso",es:"Perezoso",alt:["Trabajador","Activo","Listo"]},{pt:"Espantado",es:"Asombrado",alt:["Aburrito","Cansado","Enojado"]},{pt:"Inveja",es:"Envidia",alt:["Alegría","Tristeza","Amor"]},{pt:"Mau hálito",es:"Mal aliento",alt:["Buen olor","Aroma","Sabor"]},{pt:"Fedor",es:"Hedor",alt:["Aroma","Perfume","Limpieza"]},{pt:"Cansado",es:"Cansado",alt:["Activo","Fuerte","Sano"]},{pt:"Derrotado",es:"Derrotado",alt:["Ganador","Fuerte","Feliz"]}],
+            // Bloco 21: Diálogos Práticos
+            [{pt:"Um momento",es:"Un rato",alt:["Una hora","Un día","Siempre"]},{pt:"Frequentemente",es:"A menudo",alt:["Nunca","Raras veces","Mañana"]},{pt:"No entanto",es:"Sin embargo",alt:["Porque","Entonces","Además"]},{pt:"Eu gosto",es:"Me gusta",alt:["Odio","Prefiero","Quiero"]},{pt:"Isso mesmo",es:"Así es",alt:["No sé","Quizás","Nunca"]},{pt:"Me contou",es:"Me contó",alt:["Me miró","Me escuchó","Me llamó"]},{pt:"Embora",es:"Aunque",alt:["Porque","Cuando","Si"]},{pt:"Não acha?",es:"¿No crees?",alt:["¿Qué tal?","¿Cómo estás?","¿Adiós?"]},{pt:"Sinto muito",es:"Lo siento",alt:["Gracias","De nada","Hola"]},{pt:"Tudo bem!",es:"Vale",alt:["Adiós","No","Nunca"]}],
+            // Bloco 22: Advérbios e Períodos de Tempo
+            [{pt:"Ontem",es:"Ayer",alt:["Hoy","Mañana","Ahora"]},{pt:"Hoje",es:"Hoy",alt:["Ayer","Mañana","Ahora"]},{pt:"Amanhã",es:"Mañana",alt:["Ayer","Hoy","Anoche"]},{pt:"Agora",es:"Ahora",alt:["Después","Antes","Nunca"]},{pt:"Lá",es:"Allá",alt:["Aquí","Cerca","Lejos"]},{pt:"Enquanto",es:"Mientras",alt:["Después","Entonces","Cuando"]},{pt:"Entre",es:"Entre",alt:["Fuera","Sobre","Bajo"]},{pt:"Frequentemente",es:"Frecuentemente",alt:["Nunca","Jamás","Hoy"]},{pt:"Muito bom",es:"Muy bueno",alt:["Malo","Regular","Feo"]},{pt:"Os preços",es:"Los precios",alt:["Las cuentas","Las monedas","Las tarjetas"]}],
+            // Bloco 23: Trabalho, Comércio e Profissões
+            [{pt:"Trabalho",es:"Trabajo",alt:["Descanso","Juego","Fiesta"]},{pt:"Dirige",es:"Maneja",alt:["Camina","Corre","Vuela"]},{pt:"Idoso",es:"Mayores",alt:["Niño","Joven","Chico"]},{pt:"Aposentado",es:"Jubilado",alt:["Empleado","Estudiante","Piloto"]},{pt:"Desempregado",es:"Desempleado",alt:["Trabajador","Gerente","Chofer"]},{pt:"Vocês",es:"Ustedes",alt:["Nosotros","Ellos","Vosotros"]},{pt:"Nota fiscal",es:"Factura",alt:["Tarjeta","Dinero","Billete"]},{pt:"Vitrine",es:"Escaparate",alt:["Mostrador","Mesa","Silla"]},{pt:"Balcão",es:"Mostrador",alt:["Oficina","Puerta","Ascensor"]},{pt:"Povoado",es:"Pueblo",alt:["Ciudad","Capital","País"]}],
+            // Bloco 24: Estações do Ano e Clima
+            [{pt:"Primavera",es:"Primavera",alt:["Verano","Otoño","Invierno"]},{pt:"Verão",es:"Verano",alt:["Primavera","Otoño","Invierno"]},{pt:"Outono",es:"Otoño",alt:["Primavera","Verano","Invierno"]},{pt:"Inverno",es:"Invierno",alt:["Primavera","Verano","Otoño"]},{pt:"Roxo",es:"Morado",alt:["Rojo","Azul","Verde"]},{pt:"Cinza",es:"Gris",alt:["Blanco","Negro","Rojo"]},{pt:"Amarelo",es:"Amarillo",alt:["Verde","Azul","Rojo"]},{pt:"Manchado",es:"Manchado",alt:["Pintado","Limpio","Nuevo"]},{pt:"Pintado",es:"Pintado",alt:["Roto","Viejo","Sucio"]},{pt:"Galhos",es:"Ramas",alt:["Piedras","Flores","Ríos"]}],
+            // Bloco 25: Lazer, Diversão e Rotina
+            [{pt:"Filme",es:"Película",alt:["Libro","Juego","Música"]},{pt:"Desenhar",es:"Dibujar",alt:["Cantar","Bailar","Escribir"]},{pt:"Sorveteria",es:"Heladería",alt:["Cafetería","Farmacia","Hotel"]},{pt:"Lanchonete",es:"Cafetería",alt:["Hotel","Cine","Tienda"]},{pt:"Pipas",es:"Cometas",alt:["Globos","Aviones","Pájaros"]},{pt:"Brinquedo",es:"Juguete",alt:["Libro","Ropa","Zapato"]},{pt:"Treme",es:"Tiembla",alt:["Corre","Salta","Camina"]},{pt:"Moro",es:"Vivo",alt:["Viajo","Salgo","Trabajo"]},{pt:"Saída",es:"Salida",alt:["Entrada","Pasillo","Ascensor"]},{pt:"Sairemos",es:"Iremos",alt:["Nos quedamos","Volvemos","Salimos"]}],
+            // Bloco 26: Palavras Finais e Expressões Diversas
+            [{pt:"Saio",es:"Salgo",alt:["Entro","Vuelvo","Me quedo"]},{pt:"Cachecol",es:"Bufanda",alt:["Abrigo","Gorro","Guantes"]},{pt:"Atraso",es:"Retraso",alt:["Adelante","Pronto","Hora"]},{pt:"Volta",es:"Vuelve",alt:["Sale","Va","Corre"]},{pt:"Pássaro",es:"Pájaro",alt:["Gato","Perro","Caballo"]},{pt:"Zombando",es:"Burlaba",alt:["Cantando","Bailando","Jugando"]},{pt:"Chefe",es:"Jefe",alt:["Empleado","Amigo","Conductor"]},{pt:"Vergonha",es:"Vergüenza",alt:["Alegría","Orgullo","Miedo"]},{pt:"De carro",es:"En coche",alt:["En avión","En tren","A pie"]},{pt:"Eu sei",es:"Yo sé",alt:["No sé","Quiero","Puedo"]}]
         ];
 
-      
-
-        // Variáveis de Controle Operacional
-        let moduloAtual = 0;
-        let bancoPalavras = [];
-        let indiceExercicio = 0;
-        let errosCometidos = 0;
-        let itemSelecionadoEs = null;
-        let itemSelecionadoPt = null;
-        let acertosCombinar = 0;
-        let moduloConcluidoComSucesso = false;
+        let moduloAtual = 0, bancoPalavras = [], indiceExercicio = 0, errosCometidos = 0;
+        let itemSelecionadoEs = null, itemSelecionadoPt = null, acertosCombinar = 0, moduloConcluidoComSucesso = false;
 
         function emitirSom(termo) {
             if (window.AppInventor && window.AppInventor.setWebViewString) {
@@ -371,18 +164,14 @@
                 setTimeout(function() { window.AppInventor.setWebViewString(""); }, 150);
             } else {
                 const fala = new SpeechSynthesisUtterance(termo);
-                fala.lang = 'es-ES';
-                window.speechSynthesis.speak(fala);
+                fala.lang = 'es-ES'; window.speechSynthesis.speak(fala);
             }
         }
 
         function mudarTela(idTelaAlvo) {
             const telas = ['tela-menu', 'tela-reconhecimento', 'tela-exercicio', 'tela-combinar', 'tela-parabens'];
             telas.forEach(t => document.getElementById(t).classList.add('oculto'));
-            
-            const progressoBar = document.getElementById("global-progress");
-            progressoBar.style.display = (idTelaAlvo === 'tela-menu' || idTelaAlvo === 'tela-parabens') ? 'none' : 'block';
-            
+            document.getElementById("global-progress").style.display = (idTelaAlvo === 'tela-menu' || idTelaAlvo === 'tela-parabens') ? 'none' : 'block';
             document.getElementById(idTelaAlvo).classList.remove('oculto');
             window.scrollTo(0,0);
         }
@@ -392,179 +181,94 @@
         }
 
         function carregarModulo(index) {
-            moduloAtual = index;
-            bancoPalavras = macroBlocos[moduloAtual];
-            
-            const container = document.getElementById("container-reconhecer");
-            container.innerHTML = "";
+            moduloAtual = index; bancoPalavras = macroBlocos[moduloAtual];
+            const container = document.getElementById("container-reconhecer"); container.innerHTML = "";
             atualizarBarraProgresso(10);
-            
             bancoPalavras.forEach(item => {
-                const div = document.createElement("div");
-                div.className = "item-reconhecer";
+                const div = document.createElement("div"); div.className = "item-reconhecer";
                 div.onclick = () => emitirSom(item.es);
                 div.innerHTML = `<span><strong>${item.pt}</strong>: ${item.es}</span> <span class="speaker-icon">🔊</span>`;
                 container.appendChild(div);
             });
-            
             mudarTela("tela-reconhecimento");
         }
 
         function iniciarMultiplaEscolha() {
-            indiceExercicio = 0;
-            errosCometidos = 0;
-            renderizarPergunta();
-            mudarTela("tela-exercicio");
+            indiceExercicio = 0; errosCometidos = 0; renderizarPergunta(); mudarTela("tela-exercicio");
         }
 
         function renderizarPergunta() {
-            if (indiceExercicio >= bancoPalavras.length) {
-                iniciarCombinarColunas();
-                return;
-            }
-
-            // Calcula progresso da Fase 2 (Mapeado de 10% a 50%)
+            if (indiceExercicio >= bancoPalavras.length) { iniciarCombinarColunas(); return; }
             let progressoCalculado = 10 + Math.floor((indiceExercicio / bancoPalavras.length) * 40);
             atualizarBarraProgresso(progressoCalculado);
-
             const itemAtual = bancoPalavras[indiceExercicio];
             document.getElementById("texto-pergunta").innerText = `Como se diz "${itemAtual.pt}"?`;
-
             const opcoes = [itemAtual.es, ...itemAtual.alt].sort(() => Math.random() - 0.5);
-            const containerOpcoes = document.getElementById("container-opcoes");
-            containerOpcoes.innerHTML = "";
-
+            const containerOpcoes = document.getElementById("container-opcoes"); containerOpcoes.innerHTML = "";
             opcoes.forEach(opcao => {
-                const btn = document.createElement("button");
-                btn.className = "btn-opcao";
-                btn.innerText = opcao;
-                btn.onclick = () => checarResposta(opcao, itemAtual.es, btn);
-                containerOpcoes.appendChild(btn);
+                const btn = document.createElement("button"); btn.className = "btn-opcao"; btn.innerText = opcao;
+                btn.onclick = () => checarResposta(opcao, itemAtual.es, btn); containerOpcoes.appendChild(btn);
             });
         }
 
         function checarResposta(selecionada, correta, elementoBtn) {
-            const botoes = document.querySelectorAll(".btn-opcao");
-            botoes.forEach(b => b.removeAttribute("onclick"));
-
+            document.querySelectorAll(".btn-opcao").forEach(b => b.removeAttribute("onclick"));
             if (selecionada === correta) {
-                elementoBtn.style.borderColor = "#2cd46b";
-                elementoBtn.style.backgroundColor = "#f0fdf4";
-                elementoBtn.style.color = "#166534";
-                emitirSom(correta);
+                elementoBtn.style.borderColor = "#2cd46b"; elementoBtn.style.backgroundColor = "#f0fdf4"; elementoBtn.style.color = "#166534"; emitirSom(correta);
             } else {
-                elementoBtn.style.borderColor = "#ef4444";
-                elementoBtn.style.backgroundColor = "#fef2f2";
-                elementoBtn.style.color = "#991b1b";
-                errosCometidos++;
+                elementoBtn.style.borderColor = "#ef4444"; elementoBtn.style.backgroundColor = "#fef2f2"; elementoBtn.style.color = "#991b1b"; errosCometidos++;
             }
-
-            setTimeout(() => {
-                indiceExercicio++;
-                renderizarPergunta();
-            }, 800);
+            setTimeout(() => { indiceExercicio++; renderizarPergunta(); }, 800);
         }
 
         function iniciarCombinarColunas() {
-            acertosCombinar = 0;
-            itemSelecionadoEs = null;
-            itemSelecionadoPt = null;
-            atualizarBarraProgresso(55);
-
+            acertosCombinar = 0; itemSelecionadoEs = null; itemSelecionadoPt = null; atualizarBarraProgresso(55);
             const listaEs = [...bancoPalavras].sort(() => Math.random() - 0.5);
             const listaPt = [...bancoPalavras].sort(() => Math.random() - 0.5);
-
-            const colEs = document.getElementById("coluna-espanhol");
-            const colPt = document.getElementById("coluna-portugues");
-            colEs.innerHTML = "";
-            colPt.innerHTML = "";
-
+            const colEs = document.getElementById("coluna-espanhol"); const colPt = document.getElementById("coluna-portugues");
+            colEs.innerHTML = ""; colPt.innerHTML = "";
             listaEs.forEach(item => {
-                const btn = document.createElement("button");
-                btn.className = "btn-combinar";
-                btn.innerText = item.es;
-                btn.setAttribute("data-es", item.es);
-                btn.onclick = () => selecionarElemento(btn, 'es');
-                colEs.appendChild(btn);
+                const btn = document.createElement("button"); btn.className = "btn-combinar"; btn.innerText = item.es;
+                btn.setAttribute("data-es", item.es); btn.onclick = () => selecionarElemento(btn, 'es'); colEs.appendChild(btn);
             });
-
             listaPt.forEach(item => {
-                const btn = document.createElement("button");
-                btn.className = "btn-combinar";
-                btn.innerText = item.pt;
-                btn.setAttribute("data-es", item.es);
-                btn.onclick = () => selecionarElemento(btn, 'pt');
-                colPt.appendChild(btn);
+                const btn = document.createElement("button"); btn.className = "btn-combinar"; btn.innerText = item.pt;
+                btn.setAttribute("data-es", item.es); btn.onclick = () => selecionarElemento(btn, 'pt'); colPt.appendChild(btn);
             });
-
             mudarTela("tela-combinar");
         }
 
         function selecionarElemento(elemento, tipo) {
             if (tipo === 'es') {
-                document.querySelectorAll("#coluna-espanhol .btn-combinar").forEach(b => b.classList.remove("selecionado"));
-                itemSelecionadoEs = elemento;
+                document.querySelectorAll("#coluna-espanhol .btn-combinar").forEach(b => b.classList.remove("selecionado")); itemSelecionadoEs = elemento;
             } else {
-                document.querySelectorAll("#coluna-portugues .btn-combinar").forEach(b => b.classList.remove("selecionado"));
-                itemSelecionadoPt = elemento;
+                document.querySelectorAll("#coluna-portugues .btn-combinar").forEach(b => b.classList.remove("selecionado")); itemSelecionadoPt = elemento;
             }
-
             elemento.classList.add("selecionado");
-
             if (itemSelecionadoEs && itemSelecionadoPt) {
-                const chaveEs = itemSelecionadoEs.getAttribute("data-es");
-                const chavePt = itemSelecionadoPt.getAttribute("data-es");
-
+                const chaveEs = itemSelecionadoEs.getAttribute("data-es"), chavePt = itemSelecionadoPt.getAttribute("data-es");
                 if (chaveEs === chavePt) {
-                    itemSelecionadoEs.className = "btn-combinar correto";
-                    itemSelecionadoPt.className = "btn-combinar correto";
-                    emitirSom(chaveEs);
-                    acertosCombinar++;
-
-                    itemSelecionadoEs = null;
-                    itemSelecionadoPt = null;
-
-                    // Progresso da Fase 3 (Mapeado de 55% a 100%)
-                    let progressoCombinar = 55 + Math.floor((acertosCombinar / bancoPalavras.length) * 45);
-                    atualizarBarraProgresso(progressoCombinar);
-
-                    if (acertosCombinar === bancoPalavras.length) {
-                        setTimeout(finalizarModulo, 600);
-                    }
+                    itemSelecionadoEs.className = "btn-combinar correto"; itemSelecionadoPt.className = "btn-combinar correto";
+                    emitirSom(chaveEs); acertosCombinar++; itemSelecionadoEs = null; itemSelecionadoPt = null;
+                    let progressoCombinar = 55 + Math.floor((acertosCombinar / bancoPalavras.length) * 45); atualizarBarraProgresso(progressoCombinar);
+                    if (acertosCombinar === bancoPalavras.length) setTimeout(finalizarModulo, 600);
                 } else {
-                    const elEs = itemSelecionadoEs;
-                    const elPt = itemSelecionadoPt;
-                    elEs.style.borderColor = "#ef4444";
-                    elPt.style.borderColor = "#ef4444";
-                    errosCometidos++;
-
-                    setTimeout(() => {
-                        elEs.classList.remove("selecionado");
-                        elPt.classList.remove("selecionado");
-                        elEs.style.borderColor = "#e2e8f0";
-                        elPt.style.borderColor = "#e2e8f0";
-                    }, 400);
-
-                    itemSelecionadoEs = null;
-                    itemSelecionadoPt = null;
+                    const elEs = itemSelecionadoEs, elPt = itemSelecionadoPt;
+                    elEs.style.borderColor = "#ef4444"; elPt.style.borderColor = "#ef4444"; errosCometidos++;
+                    setTimeout(() => { elEs.classList.remove("selecionado"); elPt.classList.remove("selecionado"); elEs.style.borderColor = "#e2e8f0"; elPt.style.borderColor = "#e2e8f0"; }, 400);
+                    itemSelecionadoEs = null; itemSelecionadoPt = null;
                 }
             }
         }
 
         function finalizarModulo() {
-            const titulo = document.getElementById("titulo-resultado");
-            const msg = document.getElementById("mensagem-resultado");
-            
+            const titulo = document.getElementById("titulo-resultado"), msg = document.getElementById("mensagem-resultado");
             if (errosCometidos === 0) {
-                moduloConcluidoComSucesso = true;
-                titulo.innerText = "¡Perfecto! 🏆";
-                titulo.style.color = "#166534";
+                moduloConcluidoComSucesso = true; titulo.innerText = "¡Perfecto! 🏆"; titulo.style.color = "#166534";
                 msg.innerHTML = "Excelente! Você concluiu todas as etapas deste bloco com <strong>100% de precisão</strong> e sem nenhum erro!";
             } else {
-                moduloConcluidoComSucesso = false;
-                titulo.innerText = "¡Buen intento! 👍";
-                titulo.style.color = "#1e3a8a";
-                msg.innerHTML = `Você chegou ao fim! Porém, cometeu <strong>${errosCometidos} deslizes</strong> técnico(s) durante os testes.<br><br>Gabarite o bloco sem erros para receber a insígnia verde de conclusão permanente.`;
+                moduloConcluidoComSucesso = false; titulo.innerText = "¡Buen intento! 👍"; titulo.style.color = "#1e3a8a";
+                msg.innerHTML = `Você chegou ao fim! Porém, cometeu <strong>${errosCometidos} deslizes</strong> técnico(s) durante os testes.<br><br>Gabarite o bloco sem erros para receber a insígnia verde.`;
             }
             mudarTela("tela-parabens");
         }
@@ -572,8 +276,11 @@
         function voltarAoMenu() {
             if (moduloConcluidoComSucesso) {
                 const b = document.getElementById("bloco-" + moduloAtual);
-                b.className = "btn-bloco concluido";
-                document.getElementById("badge-bloco-" + moduloAtual).innerText = "Gabaritado";
+                if (b) {
+                    b.className = "btn-bloco concluido";
+                    const badge = document.getElementById("badge-bloco-" + moduloAtual);
+                    if (badge) badge.innerText = "Gabaritado";
+                }
             }
             mudarTela("tela-menu");
         }
